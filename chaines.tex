@@ -1,0 +1,281 @@
+\chapter{Structures de données : les chaînes de caractères et les tuples }
+\section{Quelques méthodes associées à l'objet chaîne de caractères}
+\paragraph{}
+Dans le premier chapitre , nous avons rencontré les chaînes de caractères . Rappelons que cet objet est de type \textit{string} et que l'on obtient ce type en demandant \textit{type(a)} si \textit{a} est une chaîne de caractères . Nous reviendrons un peu après sur la notion de types . La chaîne de caractères vide s'écrit '' ou " " .\par
+\paragraph{}
+Toujours dans ce premier chapitre , nous avons vu un certain nombre de \textit{méthodes} associées à l'objet chaînes de caractères :\par 
+
+\begin{itemize}
+\item \textit{len(a)} : longueur de la chaîne de caractères \textit{a}
+\item \textit{a[i]} : accès au \textit{i$-$ème} élément de \textit{a}
+\item \textit{a[i:j]} : accès à une sous-chaîne 
+\item \textit{a+b} : concaténation des chaînes \textit{a} et \textit{b}
+\item \textit{a.count('o')} : nombre d'occurences de 'o' dans \textit{a}
+\item \textit{a.index('o')} : indice de la première occurence de 'o' dans \textit{a}
+\item \textit{a.split(b)}: casse la chaîne \textit{a} selon le critère \textit{b} ; ceci renvoie une liste
+\item \textit{list(a)} : transforme la chaîne de caractères \textit{a} en une liste
+\item \textit{a.join(b)} : transforme la liste \textit{b} en utilisant le séparateur chaîne de caractères \textit{a} ; ceci permet de passer d'une liste b à une chaîne de caractères
+\item \textit{a in b} : teste si la chaîne \textit{a} se trouve dans la chaîne \textit{b}
+\end{itemize}\par
+\par 
+Illustration :
+
+\begin{lstlisting}
+>>> a = 'je vais bien'
+>>> len(a)
+12
+>>> a.__len__()
+12
+>>> a[6]
+s             # numerotation a partir de 0
+>>> a[3:8]
+'vais '       # on a recupere l'espace mais pas le 'b' , indices entre 3 et 7 inclus
+>>> a.index('i')
+5
+>>> a.count('i')
+2
+>>> a.split('')
+['je','vais','bien']
+>>> ''.join(['a','h','','?'])
+'ah ?'
+>>> '-'.join(['a','b','c'])
+'a-b-c'
+>>> ''.join(['Bon','jour'])
+'Bonjour'
+>>> b = 'tu veux'
+>>> c = 'un exercice ?'
+>>> b+c
+'tu veux un exercice ?'
+>>> b.__add__(c)
+'tu veux un exercice ?'
+\end{lstlisting}
+
+\paragraph{}
+Pour obtenir l'ensemble des méthodes associées à une chaîne de caractères \textit{a}, on peut demander \textit{dir(a)}. Dans le programme , on insiste sur la création d'une chaîne , l'accès à l'un des caractères de cette chaîne et la concaténation de chaînes .
+
+\section{Retour sur les entrées-sorties}
+
+Nous avons déjà rencontré les termes \textit{print} et \textit{input}. Reprécisons quelques aspects :
+avec print , on dispose d'un séparateur :
+\begin{lstlisting}
+ >>> x, y, z = 3, 10, 25
+ >>> print(x, y, z, sep=';')
+ 3; 10; 25
+ >>> print(x, y, z, sep='\n')
+ 3
+ 10
+ 25
+ >>> print('x=', x, sep='', end=';');print('y=', y, sep='', end=';');print('z=', z)
+ x=3; y=10; z=25
+\end{lstlisting}
+
+Si on utilise \textit{end = ' '} alors le curseur ne revient pas à la ligne.\par
+\par
+On dispose pour les chaînes de caractères de la méthode \textit{format} ; cela permet de remplacer certains champs (mis entre accolades) de la chaîne de caractères par des valeurs passées en argument de la fonction format . On peut préciser le gabarit de l'affichage . Regardons cela sur quelques exemples :
+\begin{lstlisting}
+>>> x = 12.3458189
+>>> '{:g}'.format(x)  # choisit le format le plus adapté
+12
+>>> '{:.3f}'.format(x)   # fixe le nombre de décimales
+12.345
+>>> '{:.4e}'.format(x)   # notation scientifique
+12
+\end{lstlisting}
+
+En sens inverse , l'instruction de lecture \textit{input} permet de demander à l'utilisateur de fournir des données en cours d'exécution de programme . Si on affecte alors ces données à une variable , celle-ci contient en fait une chaîne de caractères. 
+Prenons un exemple :\par
+\par
+x = input (' Entrez une valeur x :')\par
+print("\{\}+1=\{\}".format(x, x + 1))\par
+\par
+Quand on exécute le code , un message d' erreur apparaît car x contient la chaîne de caractères "7" et pas l'entier 7 . Si on demande \textit{type(x)} , on obtient <\textbf{class} '\textbf{str}' > . Pour pouvoir effectuer ce qui était souhaité , on peut convertir x en entier en utilisant :\par
+\par
+x = int(input (' Entrez une valeur x :'))\par
+print("\{\}+1=\{\}".format(x, x + 1))\par
+\par
+ce qui donne alors :\par
+\par
+Entrez une valeur x : 7 \par
+7 + 1 = 8
+
+
+\section{Retour sur les types rencontrés}
+
+Au chapitre 1 , plusieurs types d'objets ont déjà été présentés . Depuis , nous avons aussi rencontré des listes . Passons en revue les termes de vocabulaire associés à cette notion :
+
+\begin{itemize}
+\item \textit{type(a)} : type de \textit{a}
+\item \textit{int} : type entier
+\item \textit{float} : type flottant
+\item \textit{bool} : type booléen  (rencontré lors de tests)
+\item \textit{str} : type chaîne de caractères
+\item \textit{list} : type liste
+\item \textit{tuple} : type tuple (que nous verrons un peu après)
+\end{itemize} 
+
+\textit{str} , \textit{list} et \textit{tuple} sont des types \textit{séquentiels} ou \textit{composés}.
+A partir d'exemples , nous allons insister sur quelques possibilités de modifications de types :
+\begin{lstlisting}
+>>> a = 13
+>>> float(a)
+13.0
+>>> str(a)
+'13'
+>>> b = 'oui'
+>>> list(b)
+['o', 'u', 'i']
+>>> tuple(b)
+('o', 'u', 'i')
+>>> c = '15'
+>>> int(c)
+15
+\end{lstlisting}
+
+\section{Recherche naïve d'un mot dans une chaîne de caractères}
+
+Supposons t un texte et p une chaîne de caractères de longueur inférieure à celle de t . p est-elle une sous-chaîne de t ? Et si oui, combien de fois p apparaît-elle si on lit t en entier ? On suppose pour ce qui suit que p et t sont en fait représentés par des listes . On va "faire glisser " le motif le long du texte et repérer au fil de la lecture (comparaison lettre à lettre) le nombre de fois où le motif est présent . Nous utiliserons pour cela un compteur , initialisé à 0.\par
+\begin{lstlisting}[frame=lines, float=ht, caption={un premier programme}]
+# recherche d'un motif p dans un texte t
+def recherche_motif_p(t, p):
+....""" renvoie le nombre de fois ou le motif apparait"""
+....n = len(t)
+....m = len(p)
+....compt = 0   # compteur initialise a 0
+....for i in range(n - m + 1):
+........if p == t[i:i + m]:
+............compt = compt + 1
+....print(" le motif p apparait {} fois ".format(compt))
+\end{lstlisting}
+
+Cet algorithme effectue $(n-m+1)\times m$ comparaisons. On peut proposer des algorithmes plus performants , c'est-à-dire effectuant moins de comparaisons . Quand on utilise un grand nombre de données , il peut être très utile de maîtriser un ordre de grandeur du nombre d'opérations (ici comparaisons) effectuées.Cette notion de \textit{complexité} sera approfondie ultérieurement.
+\newline
+On peut aussi chercher uniquement si le motif est dans le texte et s'arrêter dès que c'est le cas . Par ailleurs , on peut tester "à la main", sans utiliser les "tranches python du type t[i:j]" , si le motif
+apparaît . Dans ce qui suit , il y a deux fonctions ; la première , notée est\_dans\_le\_texte , teste si le motif est dans le texte à partir de la position \textit{i} et renvoie vrai ou faux ; la deuxième , notée recherche\_motif\_2 , renvoie , si le motif est dans le texte , l'indice de début de présence du motif , et renvoie faux sinon .
+
+\begin{lstlisting}[frame=lines, float=ht, caption={un deuxième programme}]
+# recherche si le motif est dans le texte a partir de la position i
+def est_dans_texte(texte, motif,i):
+....k = 0            # indice a incrementer pour parcourir lettre par lettre le motif
+....m = len(motif)
+....while k<m and motif[k] == texte[k + i]:
+........k = k + 1
+....return k == m    # la fonction renvoie donc un booleen
+\end{lstlisting}
+
+\begin{lstlisting}[frame=lines, float=ht, caption={un deuxième programme}]
+def recherche_motif_2(texte, motif):
+""" renvoie le premier indice de debut de presence ou faux"""
+n = len(texte)
+m = len(motif)
+if m > n:
+....return False
+else:
+....i = 0
+....while i <= n - m and not(est_dans-texte(texte, motif, i)):
+........i = i + 1
+....if i <= n - m:      # sinon on a tout teste sans succes
+........return i
+....else:
+........return False
+\end{lstlisting}\par
+\par
+
+\section{les n-uplets (tuple)}
+
+C'est la généralisation de la notion de couple ou de triplet .En anglais , on parle de \textit{tuple}. Les éléments sont placés entre parenthèses . Ces parenthèses sont en fait facultatives , mais améliorent la lisibilité du code . Nous allons retrouver sur les exemples suivants des termes déjà utilisés pour les listes ou les chaînes de caractères . \par
+\par
+\begin{lstlisting}
+>>> x = 1, 2
+>>> type(x)
+<type 'tuple'>
+>>> y =(3, 7, -2)
+>>> t = (1.3, -4)   (peut contenir des flottants)
+>>> x + y      (concaténation)
+(1, 2, 3, 7, -2)
+>>> z = x + y + x
+>>> z
+(1, 2, 3, 7, -2, 1, 2)
+>>> z[3]        (accès à un élément, numérotation à partir de 0)
+7
+>>> z[2:5]        (slicing)
+(3, 7, -2)
+>>> len(z)      (longueur)
+7
+>>> 8 in z
+False
+>>> -2 in z
+True
+>>> z.index(2)    (indice de première occurence)
+1
+>>> z.count(2)    (nombre d'occurences de 2 dans z)
+2
+\end{lstlisting}
+\par
+Déconstruction d'un n-uplet : On peut affecter simultanément les composantes d'un n-uplet à différentes variables :\par
+
+\begin{lstlisting}
+>>> x = (1, 3.1, -7)
+>>> x1, x2, x3 = x
+>>> x2
+3.1
+\end{lstlisting}
+
+On peut alors s'en servir pour échanger 2 (ou plusieurs) variables d'un coup :
+
+\begin{lstlisting}
+>>> x1, x2 = x2, x1
+>>> x1
+3.1
+>>> x2
+1
+\end{lstlisting}
+
+Ici , \textit{x2} et \textit{x1} sont évalués (termes de droite) . Une fois cette évaluation effectuée , on effectue les affectations . C'est une façon de procéder spécifique à Python.\par
+\par
+Il n'y a qu'un 0-uplet , qui s'écrit (). \textit{len(())} renvoie 0. Un 1-uplet s'écrit (\textit{x},). La virgule finale est essentielle pour être reconnu en tant que \textit{tuple}.
+
+\begin{lstlisting}
+>>> (3, 7)+(1)
+\end{lstlisting}
+
+provoque une erreur alors que
+
+\begin{lstlisting}
+>>> (3, 12)+(8,)
+(3, 12, 8)
+\end{lstlisting}
+\section{Mutable, non mutable}
+
+Les tuples sont un nouveau type d'objet composé ; parmi ces objets composés , certains sont modifiables (mutable) , d'autres non . Les listes sont modifiables mais les chaînes de caractères et les tuples ne le sont pas. Dans l'exemple du paragraphe précédent , demander  z[3]=4 provoque un message d'erreur , alors que ceci est tout à fait possible si z est une liste .\par
+Par contre , dans les trois cas, on peut construire des boucles parcourant les "valeurs" stockées dans cet objet .
+
+\begin{lstlisting}
+>>> a = (1,3 7, -5, 9)
+>>> s = 0
+>>> for k in a:
+........s = s + k
+...
+>>> s
+15
+>>> b = [2, 'oui', 1.3]
+>>> for k in b:
+........print(k)
+...
+2
+oui
+1.3
+>>> c='non'
+>>> for k in c:
+........print(ord(k))
+...
+110
+111
+110
+
+\end{lstlisting}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "cours-ipt"
+%%% End: 

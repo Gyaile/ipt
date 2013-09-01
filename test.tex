@@ -1,0 +1,258 @@
+\chapter{Les structures conditionnelles}
+\label{chap:bool}
+\section{Les mots clés}
+A la fin de ce cours, il faudra appréhender les notions suivantes :
+\begin{itemize}
+	\item La mise en place de structures conditionnelles : \textit{if}, \textit{elif} et \textit{else}
+	\item L'utilisation des opérateurs de comparaison
+	\item L'exploitation des opérateurs booléens : \textit{or}, \textit{and}, \textit{not}
+\end{itemize}
+
+\section{Les structures conditionnelles}
+
+\subsection{Instruction if}
+L'instruction \verb|if| permet de vérifier des conditions avant d'exécuter un bloc d'instructions. La forme la plus simple de l'instruction \verb|if| est la suivante :
+\begin{lstlisting}[frame=lines,caption={instruction if},label=abs1]
+a=-5
+if a<0:
+   val_abs=-a
+print(val_abs)
+\end{lstlisting}
+$\Rightarrow$ 5 
+
+Déroulement du programme avec une valeur positive pour  \verb|a| :
+
+\begin{lstlisting}[frame=lines]
+a=5
+if a<0:
+   val_abs=-a
+print(val_abs)
+\end{lstlisting}
+$\Rightarrow$ \texttt{NameError: name "val-abs" is not defined}
+
+
+L'affectation \verb|val_abs=-a| est réalisée uniquement si le nombre est négatif d'où le message d'erreur dans le second cas.
+
+La structure conditionnelle est repérée par l'instruction \verb|if| suivi d'une expression booléenne. Si sa valeur est \verb|True| (Vrai), alors le bloc d'instructions indenté est executé. Sinon, \textbf{Python} passe à la suite. 
+
+Indenté signifie que les lignes d'instructions sont décalées vers la droite à l'aide d'espaces (4 espaces au minimum ou une tabulation en veillant à ce que l'appui sur une tabulation soit bien converti en espaces) afin de montrer l'appartenance de ces instructions à la structure conditionnelle.
+
+
+\subsection{Instruction elif et else}
+
+Une seconde forme élaborée de l'instruction \verb|if| permet d'exécuter une ou plusieurs instructions alternatives. Il s'agit de l'instruction \verb|elif| (qui est la contraction de \verb|else if|) (programme \ref{signe}). Enfin, l'instruction \verb|else| permet de déterminer les autres cas ( programme \ref{absolu}).
+
+\begin{lstlisting}[frame=lines,caption={Valeur absolue},label=absolu]
+#Programme indiquant la valeur absolue d'un nombre
+a=5
+#Debut de la structure conditionnelle
+if a<0:
+    val_abs=-a
+else:
+    val_abs=a
+#Reprise du programme    
+print(val_abs)
+\end{lstlisting}
+$\Rightarrow$ \verb|5|
+
+\begin{lstlisting}[frame=lines,caption={Signe d'un nombre},label=signe]
+#Programme indiquant le signe d'un nombre
+a=5
+#Debut de la structure conditionnelle
+if a>0:
+    print("le nombre est positif")
+elif a<0:
+    print("le nombre est negatif")
+else:
+    print("le nombre est nul")
+\end{lstlisting}
+
+
+Dans une structure conditionnelle, plusieurs instructions \verb|elif| peuvent être utilisées. par contre,il y a au plus une instruction \verb|else|.
+
+\subsection{Un exemple de synthèse }
+
+Considérons l'exemple d'un programme de bataille navale dans une version sommaire (\ref{bataille1}). Il ne s'agit pas de couler le porte-avions mais plutôt une barque tenant sur une seule case repérée par un chiffre (compris entre 0 et 9) pour la ligne et un chiffre pour la colonne. L'utilisateur choisit une case et le programme indique alors suivant les cas :
+\begin{itemize}
+	\item Soit \textbf{coulé} : si la barque est exactement sur la case considérée
+	\item Soit \textbf{en vue} : si le tir atteint la bonne ligne ou la bonne colonne.
+	\item Soit \textbf{à l'eau} : si le tir est totalement raté.
+\end{itemize}
+
+\begin{lstlisting}[frame=lines, float=ht,caption={Bataille Navale},label=bataille1]
+#choix de la position de la barque
+ligne = 3
+colonne = 6
+
+#demande a l'utilisateur son choix de tir
+util_ligne=int(input("Quelle ligne?"))
+util_colonne=int(input("Quelle colonne?"))
+
+#Test conditionnel afin de savoir si le tir a atteint la cible
+if ligne==util_ligne and colonne==util_colonne:
+    print("COULE")
+elif ligne==util_ligne or colonne==util_colonne:
+    print("EN VUE")
+else:
+    print("A L'EAU")
+\end{lstlisting}
+
+\section{Les opérateurs de test}
+Un structure conditionnelle nécessite la définition d'une \textbf{condition} dont le résultat est booléen (True ou False).
+
+\subsection{Les opérateurs de comparaison}
+
+L'analyse du programme (\ref{bataille1}) met en évidence la nécessité de comparer si la ligne choisie par l'opérateur est identique à celle où se situe le bateau. Cette vérification est réalisée par l'opérateur \verb|==|
+
+\begin{lstlisting}
+#comparateur d'egalite
+ligne == util_ligne 
+\end{lstlisting}
+
+
+Il ne s'agit pas de l'opérateur \verb|=| qui est réservé à l'affectation d'une valeur à une variable.
+
+\begin{lstlisting}
+#affectation de la valeur 3 a la variable ligne
+ligne = 3 
+\end{lstlisting}
+
+Les autres opérateurs de comparaison sont :
+
+\begin{tabular}{lc|lc}
+ \multicolumn{4}{c}{Comparateurs} \\
+ Égalité &\verb?==? & Différence& \verb?!=? \\
+ Strictement supérieur & \verb?>? & Strictement inférieur& \verb?<? \\
+ Supérieur ou égal & \verb?>=? & Inférieur ou égal& \verb?<=? \\
+\end{tabular}
+
+
+\subsection{Les opérateurs booléens}
+Afin de savoir si le bateau est touché, il est nécessaire de réaliser un test à la fois sur la ligne et sur la colonne. Les opérateurs booléens vus dans le chapitre sur les variables permettent de réaliser ces tests multiples.
+
+\begin{lstlisting}
+#operateur and (ET). Il faut les deux pour que le resultat du test soit vrai.
+ligne==util_ligne and colonne==util_colonne
+
+#operateur or (OU). Il faut l'un des deux ou bien les deux pour que le resultat du test soit vrai
+ligne==util_ligne or colonne==util_colonne
+
+\end{lstlisting}
+
+
+Remarque, l'opérateur \verb|or| n'est pas exclusif.
+\begin{Exercise}[title={Analyser},counter={exo}]
+	Permutons les test \verb|and| et \verb|or| dans le programme de bataille navale
+		\begin{lstlisting}[frame=lines]
+#Test conditionnel afin de savoir si le tir a atteint la cible
+if ligne==util_ligne or colonne==util_colonne:
+    print("EN VUE")
+elif ligne==util_ligne and colonne==util_colonne:
+    print("COULE")
+else:
+    print("A L'EAU")
+\end{lstlisting}
+	Quelle serait alors le résultat du programme si l'utilisateur trouve la bonne case?
+
+\end{Exercise}
+
+
+\section{Des structures conditionnelles imbriquées}
+Dans notre exemple, l'usage des opérateurs booléens peut être évité, mais alors l'écriture du programme nécessite l'usage de tests imbriqués (\ref{test_imbrique}). 
+
+\begin{lstlisting}[frame=lines,caption={Bataille Navale},label=test_imbrique]
+#choix de la position de la barque
+ligne= 3
+colonne=6
+
+#demande a l'utilisateur son choix de tir
+util_ligne=int(input("Quelle ligne?"))
+util_colonne=int(input("Quelle colonne?"))
+
+#Test conditionnel afin de savoir si le tir a atteint la cible
+if ligne==util_ligne:
+    if colonne==util_colonne:
+        print("COULE")
+    else:
+        print("EN VUE")
+else:
+    if colonne==util_colonne:
+        print("EN VUE")
+    else:
+        print("A L'EAU")
+
+\end{lstlisting}
+
+Remarquez, le décalage vers la droite correspondant aux différentes indentations. L'imbrication des structures conditionnelles imposent la mise en place de différents niveaux d'indentations qu'il faut respecter.
+
+\begin{Exercise}[title={Tester},counter={exo}]
+L'utilisateur a choisi la ligne 3 et la colonne 2. 
+
+Suivre alors le déroulement du programme \ref{test_imbrique} de bataille navale en indiquant en vis à vis le résultat de la compilation.
+
+Faire de même avec le choix ligne=5 et colonne=6.
+\end{Exercise}
+
+
+Cette forme d'écriture utilisant des structures conditionnelles imbriquées est plus compliquée. L'usage des opérateurs booléens sera privilégié par la suite.
+
+\section{Thèmes}
+
+\begin{Exercise}[title={Écrire un programme},counter={exo}]
+Écrire un programme qui étant donnée une équation du second degré $ax^2+bx+c=0$ identifiée par ses 3 coefficients, détermine le nombre de solutions réelles ainsi que leurs valeurs éventuelles.
+\end{Exercise}
+
+\begin{Exercise}[title={Modifier un programme},counter={exo}]
+En général, à la bataille navale, un bateau n'est "en vue" que si la case touchée est immédiatement voisine de celle du bateau. Modifier le programme \ref{bataille1} afin de tenir compte de cette règle. On pourra traiter le cas où les cases diagonalement adjacentes du bateau sont "en vue" et le cas où elle ne le sont pas. 
+\end{Exercise}
+
+\begin{Exercise}[title={Écrire un programme},counter={exo}]
+On souhaite réaliser un test pour savoir si un entier est compris dans un intervalle allant de 2 à 8 inclus
+
+Réaliser le programme en utilisant des structures conditionnelles imbriquées.
+
+Reprendre le programme et le simplifier en utilisant les opérateurs booléens.
+
+
+\end{Exercise}
+
+\begin{Exercise}[title={Écrire un programme},counter={exo}]
+Vous allez devoir réaliser un programme permettant de savoir si une année saisie par l'utilisateur est une année bissextile.
+
+Un année est dite bissextile si c'est un multiple de 4, sauf si c'est un multiple de 100. Toutefois, si c'est un multiple de 400, alors elle est considérée comme bissextile.
+
+Aide : pour savoir si c'est un nombre est multiple d'un autre, utiliser l'instruction \verb|%| qui donne le reste de la division.
+
+\end{Exercise}
+\begin{Answer}
+\begin{lstlisting}[frame=lines, caption={Année bissextile},label=bissextile]
+#Choix de l'annee par l'utilisateur
+annee = int(input("saisissez une annee :"))
+print (annee)
+#Résolution avec l'usage de boucles imbriquees
+if annee % 4 != 0:
+    print("l'annee n'est pas bissextile")
+elif annee % 100 == 0:
+    if annee % 400 != 0:
+		print("l'annee n'est pas bissextile")		
+	else:	
+		print("l'annee est bissextile")		
+else:
+	print("l'annee est bissextile")
+
+print("avec les operateurs booleens")
+
+if annee % 400 == 0 or (annee % 4 == 0 and not  annee % 100 == 0):
+        print("l'annee est bissextile")
+else: 
+        print("l'annee n'est pas bissextile")
+\end{lstlisting} 
+\end{Answer}
+\section{Solutions}
+\shipoutAnswer
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "cours-ipt"
+%%% End: 

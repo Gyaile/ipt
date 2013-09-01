@@ -1,0 +1,556 @@
+\chapter{Découverte de python}
+\section{Contexte général de ce cours}
+\subsection{Langages}
+Le dialogue avec l'ordinateur se fait à l'aide de langages qui sont de niveaux plus ou moins profond. Chaque processeur possède un langage propre, directement exécutable : \emph{le langage machine}. Il est
+formé de 0 et de 1 et n'est pas portable c'est-à-dire qu'il est propre au processeur qui l'utilise, mais c'est le seul que l'ordinateur puisse utiliser.\par
+Le \emph{langage d'assemblage} est un codage alphanumérique du langage machine. Il est plus lisible que le langage machine, mais n'est toujours pas portable. On le traduit en langage machine par un assembleur.\par
+Par exemple, un certain type de processeur  reconnaît une instruction du type
+ 10110000 01100001\par
+En langage assembleur, cette instruction est représentée par un équivalent plus facile à  comprendre pour le programmeur : \lstinline?movb 0x61,\%al? avec 10110000 à la place de \lstinline?movb \%al? et 01100001 pour {\tt 0x61}.\par
+Ce qui signifie : \og écrire le nombre 97 (la valeur est donnée en hexadécimal : $\overline{61}^{16}=6\times 16+1 = 97$) dans le registre AL\fg.\par
+Les \emph{langages de haut niveau} souvent normalisés permettent le portage d'une machine à l'autre.
+Ils sont traduits en langage machine par un compilateur ou un interpréteur. Dans ce cours d'informatique pour tous, nous utiliserons un langage de haut niveau : Python.
+\subsection{Historique succint des langages}
+Bref historique des langages
+\begin{itemize}
+\item [$\bullet$] Années 50 (approches expérimentales) : FORTRAN, LISP, COBOL, ALGOL\dots
+\item [$\bullet$] Années 60 (langages universels) : PL/1, Simula, Smalltalk, Basic\dots
+\item [$\bullet$] Années 70 (génie logiciel) : C, PASCAL, ADA, MODULA-2\dots
+\item [$\bullet$] Années 80 (programmation objet) : C++, LabView, Eiffel, Perl, VisualBasic\dots
+\item [$\bullet$] Années 90 (langages interprétés objet) : Java, tcl/Tk, Ruby, Python\dots
+\item [$\bullet$] Années 2000 (langages commerciaux propriétaires) : C\#, VB.NET\dots
+\end{itemize}
+Des centaines de langages ont été créés, mais l'industrie n'en utilise qu'une minorité.
+
+\subsection{Historique du langage Python}
+\begin{itemize}
+	
+	\item [$\bullet$]1991 : Guido van Rossum travaille aux Pays-Bas au Centrum voor Wiskunde en Informatica  sur le projet AMOEBA (un systeme
+d'exploitation distribué). Il conçoit Python (à partir du langage ABC) et publie la version 0.9.0 sur un forum Usenet
+	\item [$\bullet$]1996 : sortie de Numerical Python
+	\item [$\bullet$]2001 : naissance de la PSF (Python Software Fundation)
+	\item [$\bullet$]Les versions se succèdent. Un grand choix de modules sont disponibles, des colloques annuels sont
+organisés, Python est enseigné dans plusieurs universités et est utilisé en entreprise\dots
+	\item [$\bullet$]Fin 2008 : sorties simultanées de Python 2.6 et de Python 3.0
+	\item [$\bullet$]2013 : versions en cours : v2.7.3 et v3.3.0
+\end{itemize}
+ \section{Principales caractéristiques}
+ \begin{itemize}
+	
+	\item [$\bullet$] Langage Open Source
+	
+\begin{itemize}
+	\item  Licence Open Source CNRI, compatible GPL, mais sans la restriction copyley. Python est libre et
+gratuit meme pour les usages commerciaux
+\item  GvR (Guido van Rossum) est le  Benevolent Dictator for Life (dictateur bénévole à vie !)
+\item  Importante communaute de développeurs
+\item  Nombreux outils standard disponibles : Batteries included
+
+
+\end{itemize}
+	\item [$\bullet$] Travail interactif
+\begin{itemize}
+	\item  Nombreux interpréteurs interactifs disponibles
+\item Importantes documentations en ligne
+\item Développement rapide et incrémentiel
+\item Tests et débogage outillés
+\item Analyse interactive de données
+	
+\end{itemize}
+		\item [$\bullet$] Langage interprété rapide
+\begin{itemize}
+	\item 
+ Interprétation du bytecode compilé
+\item  De nombreux modules sont disponibles è partir de bibliothèques optimisées (souvent écrites en
+C ou C++)
+		\end{itemize}
+
+		
+			\item [$\bullet$] Simplicité du langage 
+\begin{itemize}
+	\item Syntaxe claire et cohérente
+\item Indentation significative
+\item Gestion automatique de la mémoire (garbage collector)
+\item Typage dynamique fort : pas de déclaration
+			
+			\end{itemize}
+				\item [$\bullet$] Orientation objet
+\begin{itemize}
+	\item Modèle objet puissant mais pas obligatoire
+\item  Structuration multifichier très facile des applications : facilite les modifications et les extensions
+\item  Les classes, les fonctions et les méthodes sont des objets dits de première classe. Ces objets sont
+traités comme tous les autres (on peut les affecter, les passer en paramètre)	\end{itemize}
+\item [$\bullet$] Ouverture au monde
+\begin{itemize}
+	\item Interfaçable avec C/C++/FORTRAN
+\item  Langage de script de plusieurs applications importantes
+\item  Excellente portabilité	\end{itemize}
+\item [$\bullet$] Disponibilité de bibliothèques
+\begin{itemize}
+	\item Plusieurs milliers de packages sont disponibles dans tous les domaines	\end{itemize}
+				
+				
+					
+
+
+
+\end{itemize}
+
+\subsection{Objectif}
+Le référentiel ministériel précisant les notions à aborder dans ce cours dit que 
+\og {\it{Au niveau fondamental, on se fixe pour objectif la maîtrise d'un certain nombre de concepts de base, et avant tout, la conception rigoureuse d'algorithmes et le choix de représentations appropriées des données}}.\fg\par
+
+Nous allons dans un premier temps préciser les notions d'algorithmes et de données.\par
+
+
+\begin{defi}[Algorithme]
+Un algorithme est un ensemble d'étapes permettant d'atteindre un but en répétant un nombre fini de fois un nombre fini d'instructions.
+\end{defi}
+Un algorithme doit se terminer en un temps fini.\par On peut l'écrire dans un \emph{pseudo-langage} utilisant des instructions élémentaires comme l'affectation, la comparaison, \emph{tant que\dots faire\dots}, \emph{Si \dots alors\dots sinon\dots,} etc.\par
+Un \emph{programme} est la traduction d'un algorithme en un langage compilable ou interprétable par un ordinateur. Il est souvent écrit en plusieurs parties dont une qui pilote les autres : le programme principal.\par
+On s'efforcera au cours de ces deux années d'appliquer la \emph{méthodologie procédurale}. On emploie l'analyse descendante (division des problèmes) et remontante (réutilisation d'un maximum de sous-algorithmes). On s'efforce ainsi de décomposer un problème complexe en sous-programmes plus simples. Ce modèle structure d'abord les actions.\par
+Afin de faciliter la relecture de programme, on pensera à les commenter. Pour cela il suffira de précéder un texte explicite par un dièse : \lstinline?#?.
+\section{Notion de variable}
+L'essentiel du travail effectué par un programme d'ordinateur consiste à  manipuler des données. Ces données peuvent être très diverses, mais dans la mémoire de l'ordinateur elles se ramènent toujours en définitive à  une suite finie de nombres binaires. Pour pouvoir accéder aux données, le programme d'ordinateur (quel que soit le langage dans lequel il est écrit) fait abondamment usage d'un grand nombre de variables de différents types. Une variable apparaît dans un langage de programmation sous un nom à  peu près quelconque (voir ci-après), mais pour l'ordinateur il s'agit d'une référence désignant une adresse mémoire, c'est-à-dire un emplacement précis dans la mémoire vive. À cet emplacement est stockée une valeur bien déterminée. C'est la donnée proprement dite, qui est donc stockée sous la forme d'une suite de nombres binaires, mais qui n'est pas nécessairement un nombre aux yeux du langage de programmation utilisé. Cela peut être en fait à  peu près n'importe quel \og objet\fg susceptible d'être placé dans la mémoire d'un ordinateur, par exemple : un nombre entier, un nombre réel, un nombre complexe, un vecteur, une chaîne de caractères typographiques, un tableau, une fonction, etc.\par
+Pour distinguer les uns des autres ces divers contenus possibles, le langage de programmation fait usage de différents types de variables (le type entier, le type réel, le type chaîne de caractères, le type liste, etc). \par
+Les noms de variables sont des noms que vous choisissez vous-même assez librement. Efforcez-vous cependant de bien les choisir : de préférence assez courts, mais aussi explicites que possible, de manière à exprimer clairement ce que la variable est sensée contenir.\par
+Sous Python, les noms de variables doivent en outre obéir à quelques règles simples :
+\begin{itemize}
+	\item [$\bullet$] Un nom de variable est une séquence de lettres (a ... z , A ... Z) et de chiffres (0 ... 9), qui doit toujours commencer par une lettre ;
+\item [$\bullet$] seules les lettres ordinaires sont autorisées. Les lettres accentuées, les cédilles, les espaces, les caractères spéciaux tels que \$, \#, etc. sont interdits, à l'exception du caractère \_ (underscore) ;
+\item [$\bullet$] la casse est significative (les caractères majuscules et minuscules sont distingués).
+\end{itemize}
+Prenez l'habitude d'écrire l'essentiel des noms de variables en caractères minuscules (y compris la première lettre). Il s'agit d'une simple convention, mais elle est largement respecté. N'utilisez les majuscules qu'a l'interieur même du nom, pour en augmenter eventuellement la lisibilité.\par
+En plus de ces règles, il faut encore ajouter que vous ne pouvez pas utiliser comme nom de variables les 33  mots clés réservés  ci-dessous (ils sont utilisés par le langage lui-même) :
+\begin{lstlisting}
+and      as   assert break  class    continue 
+def      del  elif   else   except   False 
+finally  for  from   global if       import 
+in       is   lambda None   nonlocal not    
+or       pass raise  return True     try
+while    with yield
+\end{lstlisting}
+On retiendra qu'une \emph{variable }  est un identificateur (une chaîne de caractères bien construite) associé à une valeur. 
+%En Python, c'est une référence d'objet.
+\subsection{Affectation}
+\begin{defi}[Affectation] L'opération par laquelle on établit un lien entre le nom de la variable et sa valeur (son contenu) est appelée \emph{affectation } ou {\it assignation}.
+\end{defi}
+En Python comme dans de nombreux autres langages, l'opération d'affectation est représenté par le signe égale \lstinline?=?\par
+L'affectation est un exemple d'\emph{instruction} c'est-à-dire un ordre que l'on donne à la machine.\par
+Remarque : Ce choix du symbole \lstinline?=? est un parti pris, on aurait pu opter pour le symbole $\leftarrow$. Cela se voit dans certains cas du langage Caml. En turbo-Pascal, on utilise :=\par
+On sera vigilant sur le fait que le \lstinline?=? de Python n'a pas la même signification que dans un cours de mathématique, de physique ou de sciences de l'ingénieur.\par
+En Python, \lstinline?x = 4? devrait se lire \emph{x reçoit la valeur 4} et non pas \emph{x égal 4}.\par
+La fonction \lstinline?print( )? permet l'affichage des valeurs des variables. Cette fonction print est aussi une instruction que l'on donne à la machine.\par
+Exemple : commenter les lignes suivantes. Ce qui suit l'invite \lstinline?>>>? a été tapé par l'utilisateur dans la console, le reste constitue les réponses de la machine après un \og retour charriot\fg (touche entrée). 
+\begin{lstlisting}
+>>> a=6         #a recoit 6
+>>> print(a)    # on affiche la valeur de a
+6
+>>> b=7.9
+>>> print(b)
+7.9
+>>> print(a+b)
+13.9
+>>> message="Python for ever"
+>>> print(message)
+Python for ever
+>>> message
+'Python for ever'
+\end{lstlisting}
+En Python, il est loisible de faire des affectations multiples
+\begin{lstlisting}
+>>> x=y=8
+>>> print(x,y)
+8 8
+>>> x=5.6
+>>> print(x,' et ', y)
+5.6  et  8
+\end{lstlisting}
+ et même des affectations paralèlles
+ \begin{lstlisting}
+>>> f,g = 5.7, 3
+>>> print('f vaut ',f,' et g vaut ',g)
+f vaut  5.7  et g vaut  3
+\end{lstlisting}
+Une même variable peut voir sa valeur évoluer. Les anciennes valeurs sont oubliées par la machine.
+\begin{lstlisting}
+>>> graal='Arthur'
+>>> graal
+'Arthur'
+>>> graal=1975
+>>> graal=graal-1  #decrementation
+>>> print(graal)
+1974
+>>> graal=graal+ 1 # incrementation
+>>> print(graal)
+1975
+\end{lstlisting}
+On notera que lors d'une affectation, la machine calcule d'abord la valeur du terme de droite avant de l'affecter à l'identificateur.\par
+Signalons une \og Pythonnerie\fg c'est-à-dire une spécificité de la syntaxe de Python, le symbole \lstinline?+=? permet d'ajouter une valeur à une variable sous la  forme 
+$$\hbox{\emph{nom de la variable  }}+\! \! = \hbox{ \it  valeur à ajouter}$$
+\begin{lstlisting}
+>>> m = 6
+>>> m += 5
+>>> m
+11
+>>> m += -3
+>>> m
+8
+\end{lstlisting}
+On retient que \lstinline?m += 5? a le même effet que \lstinline?m= m+5?
+\section{Type de donnée}
+Dans l'exemple du dessus, la variable nommée \lstinline?a? (on dira la variable \lstinline?a?) a pour valeur 6 et \lstinline?b? a pour valeur 7.9 ou 7,9.\par
+La machine fait la différence entre le caractère (nombre) entier de 6 et le caractère réel (on dira \emph{flottant}) de 7,9.\par
+On parle de \emph{typage de données}, on remarque que Python effectue un typage \emph{dynamique } dans le sens où il suffit d'écrire que \lstinline?a? reçoit 6 pour que la machine sache que \lstinline?a? est de type entier.\par
+En Java ou en Turbo-Pascal, ce n'est pas le cas, toute variable doit être typée avant de lui assigner une valeur.\par
+Le type de donnée détermine la façon dont la machine va stocker la variable. \par
+Passons en revue quelques types de données. 
+\subsection{Type int}
+Il est utilisé dans le cadre des nombres entiers. En Python, le type int n'est limité en taille que par la mémoire de la machine.\par
+Commenter les lignes suivantes et interpréter les opérations \par
++ \quad  - \quad$*$ \quad$**$\quad $/$\quad $//$\quad $\%$\quad abs.
+\begin{lstlisting}
+>>> 34+7
+41
+>>> 56-98
+-42
+>>> 6*6
+36
+>>> 4**3
+64
+>>> 56/19
+2.9473684210526314
+>>> 56//19
+2
+>>> 45%7
+3
+>>> abs(78-45)
+33
+>>> abs(45-89)
+44
+\end{lstlisting}
+Les exemples précédents permettent d'appréhender la notion d'\emph{expression}.\par
+\begin{defi}[Expression] Une \emph{expression} est une portion de code que l'interpréteur Python peut évaluer pour obtenir une valeur.
+\end{defi}
+Les expressions peuvent être simples ou complexes. Elles sont formées d'une combinaison de littéraux représentant directement des valeurs, d'identificateurs et d'opérateurs. 
+\begin{lstlisting}
+>>> a=6   # ceci est une instruction
+>>> 4+a   # ceci est une expression
+10
+\end{lstlisting}
+Dans l'expression \lstinline?4+a?, 4 est une valeur, \lstinline?a? un identificateur et \lstinline?+? un opérateur.
+\subsection{Type float}
+La notion mathématique de réel n'a pas d'équivalent  en informatique. Certains nombres dits \emph{irrationnels} n'ont pas d'écriture décimale périodique, il est impossible de les contenir en mémoire avec leur valeur exacte. C'est le cas pour $\sqrt{2}$ ou $\pi.$ On se contente de valeurs approchées. Ce point fera l'objet d'un chapitre spécifique au cours de l'année.\par
+Les valeurs approchant les nombres réels sont appelés \emph{nombres flottants} pour rappeler que leur virgule \og flotte\fg en fonction de la précision d'approximation.\par
+En Python, ces valeurs ont le type float. On les représentente avec un point à la place de notre virgule ou bien avec un exposant \lstinline?e? qui signifie puissance 10.
+\begin{lstlisting}
+>>> 8.98547
+8.98547
+>>> 898547e-5
+8.98547
+>>> 89854.7e-4
+8.98547
+\end{lstlisting}
+Les flottants supportent les mêmes opérations que les entiers.\par 
+Ils ont une précision finie limitée.\par 
+L'import du module \lstinline?math? autorise un grand nombre d'opérations mathématiques usuelles. Par exemple :
+\begin{lstlisting}
+>>> import math
+>>> math.pi
+3.141592653589793
+>>> math.sin(math.pi/4)
+0.7071067811865475
+>>> math.log(5)
+1.6094379124341003
+>>> math.log(2.7)
+0.9932517730102834
+\end{lstlisting}
+\subsection{Conversion de type}
+Il est possible de convertir une variable float en variable de type int avec la fonction {\tt int()}.
+\begin{lstlisting}
+>>> int(4.3)
+4
+>>> int(4.9)
+4
+>>> int(-3.2)
+-3
+>>> int(-3.8)
+-3
+>>> int(0.3)
+0
+>>> a=6.7
+>>> b=int(a)
+>>> b
+6
+\end{lstlisting}
+La fonction \lstinline?float()? réalise l'inverse.
+\begin{lstlisting}
+>>> float(5)
+5.0
+\end{lstlisting}
+\subsection{Type booléen}
+Le type booléen est réservé aux variables pouvant prendre deux valeurs : \lstinline?False? ou \lstinline?True?.\par
+Les comparaisons ont pour résultat des valeurs booléenes. Avec l'exemple ci-dessous, donnons les significations des opérateurs suivants \par
+$==\quad != \quad > \quad >= \quad < \quad <=$
+\begin{lstlisting}
+>>> (5+7)==12
+True
+>>> (5+7)!= 12
+False
+>>> (+7)!=4
+True
+>>> 6 > 8
+False
+>>> 6>5
+True
+>>> 6>6
+False
+>>> 6>=(4+2)
+True
+\end{lstlisting}
+Une erreur classique sera de confondre \lstinline?=? et \lstinline?==?, ce qui ne vous arrivera jamais bien sûr.\par
+On dispose aussi d'opéteurs logiques : \lstinline?and?, \lstinline?or? et \lstinline?not?. Compléter les tableaux suivants.\par
+\begin{tabular}{|c|c|c|c|}
+\hline
+  \lstinline?a?  & \lstinline?b? &  \lstinline?a and b?&  \lstinline?a or b?  \\
+\hline
+ \texttt{true} & \texttt{true} & &   \\
+\hline
+ \texttt{true} & \texttt{false} & &   \\
+\hline
+ \texttt{false} & \texttt{true} & &   \\
+\hline
+ \texttt{false} & \texttt{false} & &   \\
+ \hline 
+\end{tabular} 
+puis
+ \begin{tabular}{|c|c|}
+\hline
+   \lstinline?a? &  \lstinline?not a?  \\
+\hline
+ true &   \\
+\hline
+false &   \\
+\hline
+\end{tabular}\par
+\begin{lstlisting}
+>>> (6>7) and (4<9)
+False
+>>> (6>=3) and (4<9)
+True
+\end{lstlisting}
+La fontion \lstinline?int? transforme \lstinline?True? en 1 et \lstinline?False? en 0.\par
+On voit le caractère \emph{polymorphe} de la fonction qui supporte en entrée une variable flottante ou une variable booléene.
+\subsection{Fonction type}
+La fonction \lstinline?type? permet d'afficher le type d'une expression ou d'une valeur ou d'une variable.
+\begin{lstlisting}
+>>>a=6
+>>> type(a)
+<class 'int'>
+>>> type(6>3)
+<class 'bool'>
+>>> type(a+8.0)
+<class 'float'>
+\end{lstlisting}
+Sur le dernier exemple, on voit que la machine additionne un entier et un flottant et que le résultat est un flottant.\par
+Commenter les lignes suivantes.
+\begin{lstlisting}
+>>> type(a==6)
+<class 'bool'>
+>>> type(a=6)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+TypeError: type() takes 1 or 3 arguments
+\end{lstlisting}
+Remarque : certains langages dits fortement typés donnent un type aux instructions.
+\subsection{Chaîne de caractère}
+Une donnée de type \lstinline?string?  peut se définir  comme une suite quelconque de caractères. Dans un script python, on peut délimiter une telle suite de caractères, soit par des apostrophes (simple quotes), soit par des guillemets (double ou triple quotes). Exemples :
+\begin{lstlisting}
+>>> marcel='Longtemps, '
+>>> marcel
+'Longtemps, '
+>>> proust='je me suis couché de bonne heure'
+>>> print(marcel,proust)
+Longtemps,  je me suis couché de bonne heure
+>>> type(marcel)
+<class 'str'>
+>>> a='"u"'
+>>> a
+'"u"'
+>>> print(a)
+"u"
+>>> z="'t'"
+>>> print(z)
+'t'
+\end{lstlisting}
+Remarquez l'utilisation des guillemets pour délimiter une chaîîne dans laquelle il y a des apostrophes, ou l'utilisation des apostrophes pour délimiter une chaîne qui contient des guillemets.\par
+ La fonction \lstinline?print()? insère un espace entre les éléments affichés.\par
+ Le caractère spécial $\backslash$ (antislash) permet quelques subtilités complémentaires.\par 
+ En premier lieu, il permet d'écrire sur plusieurs lignes une commande qui serait trop longue pour tenir sur une seule (cela vaut pour n'importe quel type de commande).\par
+À l'intérieur d'une chaîne de caractères, l'antislash permet d'insérer un certain nombre de codes spéciaux (sauts à la ligne, apostrophes, guillemets, etc.). \par
+Exemples :
+\begin{lstlisting}
+>>> txt3 = '"N\'est-ce pas ?" répondit-elle.'
+>>> Salut = "Ceci est une chaîne plutôt longue\n contenant plusieurs lignes \
+... de texte (Ceci fonctionne\n de la même façon en C/C++.\n\
+... Notez que les blancs en début\n de ligne sont significatifs.\n"
+>>> print(Salut)
+Ceci est une chaîne plutôt longue
+ contenant plusieurs lignes ... de texte (Ceci fonctionne
+ de la même façon en C/C++.
+... Notez que les blancs en début
+ de ligne sont significatifs.
+\end{lstlisting}
+ Remarques :
+\begin{itemize}
+	\item[$\bullet$] la séquence $\backslash$\lstinline?n? dans une chaîne provoque un saut à la ligne ;
+	\item[$\bullet$] la séquence $\backslash$' permet d'insérer une apostrophe dans une chaîne délimitée par des apostrophes ; de la même manière, la séquence $\backslash$" permet d'insérer des guillemets dans une chaîne délimitée elle-même par des guillemets ;
+	\item[$\bullet$] rappelons encore ici que la casse est significative dans les noms de variables (il faut respecter scrupuleusement le choix initial de majuscules ou minuscules) ;
+	\item[$\bullet$] triple quotes :  pour insérer plus aisément des caractères spéciaux  dans une chaîne, sans faire usage de l'antislash, ou pour faire accepter l'antislash lui-même dans la chaîne, on peut encore délimiter la chaîne à l'aide de triples guillemets ou de triples apostrophes.
+\end{itemize}
+\begin{lstlisting}
+>>> a1 = """
+... Exemple de texte préformaté, c'est-à-dire
+... dont les indentations et les
+...   caractères spéciaux \ ' " sont
+...  conservés sans
+... autre forme de procès."""
+>>> print(a1)
+... Exemple de texte préformaté, c'est-à-dire
+... dont les indentations et les
+...   caractères spéciaux \ ' " sont
+...  conservés sans
+... autre forme de procès.
+\end{lstlisting}
+Les chaînes de caractères ont un type qui s'appelle \lstinline?str? pour string en Python. Il n'est pas modifiable c'est-à-dire  qu'une donnée, une fois créée en mémoire, ne pourra plus être changée, toute transformation résultera en la création d'une nouvelle valeur distincte.
+\subsection{Opération sur les chaînes}
+\begin{itemize}
+	\item[$\bullet$] longueur : \lstinline?len(chaine)? donne la longueur de lstinline?chaine?
+		\item[$\bullet$] Concaténation avec le symbole \lstinline?+?
+		\begin{lstlisting}
+		>>> marcel
+'Longtemps, '
+>>> marcel+proust
+'Longtemps, je me suis couché de bonne heure'
+>>> phrase=marcel+proust
+>>> print(phrase)
+Longtemps, je me suis couché de bonne heure
+		\end{lstlisting}
+		\item[$\bullet$] Répétition comme une multiplication
+	\begin{lstlisting}
+>>> victor='Waterloo, '
+>>> victor*3
+'Waterloo, Waterloo, Waterloo, '
+		\end{lstlisting}
+	\end{itemize}
+\subsection{Méthode}
+Il existe d'autres façons d'agir sur les chaînes. On  utilise la forme \emph{variable}.\lstinline?fonction()?. Attention ! la chaîne d'origine n'est pas affectée par les modifications, le résultat doit être récupéré par une variable : \lstinline?variable=chaine.fonction()?.\par
+Cette façon d'opérer avec la méthode pointée est spécifique à la programmation objet.\par
+ Pour une variable dénommée \lstinline?chaine? :
+\begin{itemize}
+	\item[$\bullet$] \lstinline?chaine.upper()? convertit en majuscule par exemple 
+\begin{lstlisting}
+>>> print('petit'.upper())
+PETIT
+\end{lstlisting}
+	\item[$\bullet$] \lstinline?chaine.lower()? convertit en minuscule par exemple 
+\begin{lstlisting}
+>>> marcel='Longtemps, '
+>>> petit=marcel.lower()
+>>> print(petit, marcel)
+longtemps,  Longtemps, \end{lstlisting}
+\item[$\bullet$] {\tt  chaine.isupper()} et {\tt  chaine.islower()}  retournent True si la chaîne ne contient respectivement que des majuscules ou minuscules.
+	\item[$\bullet$]\lstinline? chaine.capitalize()? passe la première lettre de la chaîne en capitale
+	\item[$\bullet$]\lstinline? chaine.title()? passe la première lettre de chaque mot de la chaîne en capitale
+	\item[$\bullet$]\lstinline? chaine.swapcase()? transforme minuscules en majuscules et inversement
+	\item[$\bullet$]\lstinline? chaine.split()? renvoie une liste de tous les mots (séparation: l'espace) d'une chaîne-phrase
+	\item[$\bullet$]\lstinline? chaine.split('*')? le séparateur peut être une chaîne autre qu'un espace
+\end{itemize}
+Il existe d'autres méthodes, vous les trouverez facilement sur les aides en lignes.
+\subsection{Les chaînes de caracteres : indexation simple}
+Pour indexer une chaine, on utilise l'operateur [ ] dans lequel l'index, un entier,  indique la position d'un caractère en débutant l'indexation à 0. On peut mettre un index négatif le terme d'index $-1$ est le dernier caractère, celui d'index moins la longueur de la chaîne est le premier caratère.
+\begin{lstlisting}
+>>> victor='Waterloo, '
+>>> victor[0]
+'W'
+>>> type(victor[0])
+<class 'str'>
+>>> victor[1]+victor[5]
+'al'
+>>> len(victor)
+10
+>>> victor[-10]
+'W'
+>>> victor[-1]
+' '
+\end{lstlisting}
+\subsection{Tranche}
+Il est possible d'extraire des morceaux de chaîne de caractères. Le résultat est une nouvelle chaîne de caractère. Cette opération ne modifie pas la chaîne sur laquelle elle s'applique.\par
+La syntaxe est la suivante, soit \lstinline?machaine? une variable de type string. Le code \lstinline?machaine[debut:fin]? retourne la chaîne de caractère avec les lettres de \lstinline?machaine? dont les indices sont compris entre \lstinline?debut? et \lstinline?fin -1?. Si on ne met pas de valeur pour \lstinline?debut?, la machine met 0 par défaut. Si on ne met pas de valeur pour \lstinline?fin?, la machine met la longueur de \lstinline?machaine? par défaut.  \par
+Il est possible de mettre des valeurs négatives comme on l'a vu au-dessus.
+\begin{lstlisting}
+>>> wam='La flûte enchantée'
+>>> wam[1:4]
+'a f'
+>>> wam[-4:]
+'ntée'
+>>> wam[:3]
+'La '
+>>> wam[6:]
+'te enchantée'
+\end{lstlisting}
+On peut aussi sélectionner des caractère avec un pas constant, par défaut le pas est 1. La syntaxe est la suivante. Le code \lstinline?machaine[debut:fin:pas]? retourne la chaîne de caractère avec les lettres de \lstinline?machaine? dont les indices sont compris entre \lstinline?debut? et \lstinline?fin -1? avec un pas de longueur \lstinline?pas?.\par
+Par exemple \lstinline?machaine[4 : 18 : 3]?  retourne la chaîne avec les lettres d'indices 4, 7, 10, 13, 16 de \lstinline?machaine?
+\begin{lstlisting}
+>>> wam[::1]   # intérêt très limité !!
+'La flûte enchantée'
+>>> wam[4:-3:6]
+'ln'
+>>> wam[3:len(wam):2]
+'fûeecate'\end{lstlisting}
+Remarque : cette indexation avec 0 pour le premier terme peut sembler étrange. Elle l'est moins si on considère que ce sont les interstices entre les lettres qui sont indexés.\par
+\begin{tabular}{ccccccccc}
+ $\vert$ &L & $\vert$ & a& $\vert$ &  &$\vert$ & f&$\vert$\\
+  \hline
+  0 & & 1 && 2 && 3&&4\\
+\end{tabular}\par
+Ainsi l'exemple \lstinline?wam[1:4]? signifie que l'on prend la tranche entre les interstices 1 et 4, c'est-à-dire \lstinline?'a f'?.\par
+Dans la doc de Python  (\url{http://docs.python.org/3/library/functions.html?highlight=input\#input}), on peut lire au sujet de \lstinline?input? :\par
+\emph{ The function [...] reads a line from input, converts it to a string (stripping a trailing newline), and returns that.} 
+\par
+\emph{La fonction lit une ligne depuis l'input, la convertit en une chaîne de caractère (en supprimant le saut de ligne) et la retourne.}\par
+Autrement dit, la fonction donne la main à l'utilisateur qui tape un texte au clavier, la fonction convertit en chaîne de caractères et retourne cette chaîne. Que fait le code suivant ?
+\begin{lstlisting}
+prenom = input("Entrez votre prenom : ")
+prenom_maj = prenom[0].upper() + prenom[1:]
+print (prenom_maj) 
+\end{lstlisting}
+\tikz\node[rotate=180, text width = 0.8\textwidth]  {la première lettre mise en majuscule concaténé avec le reste du prénom et on affiche la valeur de \lstinline?prenom\_maj?.};
+\par
+\tikz\node[rotate=180, text width = 0.8\textwidth]  {Réponse : l'utilisateur rentre son prénom au clavier, la variable {\tt prenom} reçoit cette valeur, {\tt prenom\_maj } reçoit};\par
+Par exemple 
+\begin{lstlisting}
+>>> prenom = input("Entrez votre prenom : ")
+Entrez votre prenom : monthy
+>>> prenom_maj = prenom[0].upper() + prenom[1:]
+>>> print (prenom_maj)
+Monthy
+\end{lstlisting}
+\newpage
+\begin{itemize}
+	\item \og Une introduction à Python 3\fg, Bob CORDEAU et 
+Laurent POINTAL
+\item \og Apprendre à programmer avec Python 3\fg, Gérard Swinnen
+
+\end{itemize}
+
+
+
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "cours-ipt"
+%%% End: 
+

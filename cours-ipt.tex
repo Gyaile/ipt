@@ -1,0 +1,78 @@
+\documentclass[a4paper,french,12pt]{book}
+%\usepackage[utf8]{inputenc}%Pour travailler en utf8 (plus de pb d'accents ...)
+%\usepackage[T1]{fontenc}
+\usepackage{lmodern}%Police de caractères
+\usepackage{graphicx}%Pour l'inclusion d'images
+\usepackage{amssymb, amsmath, amsthm}%Les symboles mathématiques de l'ams (american mathematical society)
+\usepackage[siunitx,europeanresistor,europeanvoltage]{circuitikz}%Pour les circuits électriques (portes logiques)
+\usepackage{tikz}%Pour les dessins divers (arbres, graphes...)
+\usetikzlibrary{arrows,matrix,decorations.fractals,positioning}%Des options supplémentaires pour Tikz
+\usepackage{fancyhdr}%Pour des haut et bas de page modifiables
+\usepackage{listings}%Le package principal pour mettre du code
+\usepackage[answerdelayed]{exercise}%Pour mettre en page des exercices facilement
+\usepackage{wrapfig}%Pour bien insérer des images noyée dans le texte
+%Suivent des définitions pour la mise en page
+\renewcommand{\ExerciseName}{Exercice}
+\renewcommand{\ExerciseHeaderTitle}{\quad---\quad\emph{\ExerciseTitle}}
+\renewcommand{\ExerciseHeader}{\vspace{0.3cm}\noindent\textbf{\large \ExerciseName\ \ExerciseHeaderNB}\ExerciseHeaderTitle\ExerciseHeaderOrigin}
+\renewcommand{\AnswerHeader}{\noindent\textbf{Solution de l'exercice \ExerciseHeaderNB} \ExerciseTitle} 
+\newcounter{exo}
+\setcounter{exo}{0}
+\usepackage[hyperindex=true,colorlinks=true]{hyperref}%Des liens cliquables dans les pdf
+\usepackage[frenchb]{babel}%Les particularités de mise en page de la langue française
+\newtheorem{defi}{Définition}[chapter]
+\title{IPT MPSI}
+\author{Lycée Faidherbe}
+\date{Année scolaire 2013-2014}
+\makeindex
+\makeglossary
+\pagestyle{fancy}%Redéfinition des hauts et bas de page
+\setlength{\headheight}{15pt}
+\graphicspath{{epss/}}
+\fancypagestyle{plain}{
+ \fancyhf{}% on efface tout
+  \fancyfoot[C]{\thepage}% numéro en bas de la page
+% on efface tous les traits
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}}
+ \fancyhf{}% on efface tout
+ \fancyhead[LE,RO]{\thepage}
+%Définition des numérotations (chiffres romains, arabes...)
+\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\Roman{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\Roman{section}.\arabic{subsection}.\alph{subsubsection}}
+\renewcommand{\thefigure}{\arabic{figure}}
+%La table des matières
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+\title{Cours d'informatique pour tous}
+\author{Lycée Faidherbe}
+\begin{document}
+%Quelques couleurs pour mettre en avant certains mots clés python
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\lstset{columns=flexible,escapechar = \£, tabsize = 4,keywordstyle=\color{keywords}, commentstyle=\itshape\color{comments}, stringstyle=\color{green!80!black}, basicstyle=\ttfamily, frameround=tttt, linewidth=0.95\textwidth, xleftmargin=0.025\textwidth, breaklines=true, showstringspaces=false, language=python, morekeywords={as, assert, False, None, nonlocal, True, with, yield, float, int, abs, type}}
+\renewcommand{\lstlistingname}{Programme}
+\include{tablemat}
+\include{variables}
+\include{test}
+\include{fonctions}
+\include{boucles}
+\include{listes}
+\include{chaines}
+\include{machines}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+

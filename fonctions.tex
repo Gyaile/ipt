@@ -1,0 +1,391 @@
+
+%Quelques couleurs pour mettre en avant certains mots clés python
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\lstset{escapechar=\!, keywordstyle=\color{keywords}, commentstyle=\itshape\color{comments}, stringstyle=\color{green!80!black}, basicstyle=\ttfamily, frameround=tttt, linewidth=0.95\textwidth, xleftmargin=0.025\textwidth, breaklines=true, showstringspaces=false, language=python}
+\renewcommand{\lstlistingname}{Programme}
+\chapter{Les fonctions}
+
+\section{Les mots clés}
+A la fin de ce cours, il faudra appréhender les notions suivantes :
+\begin{itemize}
+	\item Utilisation de fonctions prédéfinies
+	\item Importation de modules de fonctions : \textit{import}
+	\item Déclaration d'une nouvelle fonction :  \textit{def}
+	\item Définition du corps d'une fonction en blocs d'instructions indentées
+	\item Renvoi de valeurs \textit{return}
+	\item Documentation d'une fonction : \textit{help}
+\end{itemize}
+
+\section{Pourquoi des fonctions?}
+
+\subsection{Pour structurer un développement de projet}
+
+Ou comment répondre à un projet complexe où les lignes de codes vont s'accumuler.
+
+Un programme principal est structuré par décomposition  en sous-programmes. Chaque sous-programme peut alors être implantée comme une fonction \footnote{Cet usage du terme fonction est spécifique à Python et diffère de la définition plus restrictive vue en mathématique. Nous tâcherons par la suite de bien cerner les différences.} du programme principal et être traitée séparément (vision descendante), voire par des personnes différentes.
+
+
+On peut se placer du point de vue :
+\begin{itemize}
+\item du programmeur en charge de la réalisation d'une fonction particulière qui établit la séquence d'instructions.
+\item ou de l'utilisateur de la fonction qui n'est pas obligé de savoir comment elle est programmée mais qui a besoin de connaître quelles sont les paramètres à fournir en entrée et quels sont les valeurs récupérables en sortie.
+\end{itemize}
+
+En outre, il n'est pas rare d'avoir des séquences qui se répètent à plusieurs reprises dans un programme. L'usage d'une fonction permet alors de définir une seule fois la séquence et d'y faire appel à de multiples reprises par la suite (vision remontante).
+
+
+\subsection{Pour enrichir le langage}
+
+Ou l'art d'apprendre à un ordinateur à réaliser des tâches qu'il n'était pas capable de réaliser auparavant.
+
+Il s'agit alors de définir ses propres fonctions qui vont permettre d'ajouter de nouvelles instructions au langage de programmation.
+
+On peut ensuite regrouper un ensemble de fonctions dans un module et les importer afin de les utiliser dans un programme à la manière du module "math".
+
+\section{Des fonctions prédéfinies}
+
+Par défaut, le langage propose de multiples fonctions prédéfinies . D'autres peuvent être importées suivant l'usage au travers des modules. La première partie du cours sur les variables a permis de mettre en évidence l'usage de quelques fonctions incontournables. L'objectif ici est d'analyser la typologie de mise en œuvre de ces fonctions, typologie qui sera réutilisée lorsque nous définirons nos propres fonctions par la suite.
+
+\subsection{Quelques fonctions incontournables}
+
+Afin de faire le  point, étudions l'exemple suivant d'un programme permettant de calculer le prix TTC. Ce programme fait appel à des fonction implantés d'origine en Python. 
+
+\begin{lstlisting}[frame=lines, float=ht,caption={Calcul du prix TTC},label=TTC]
+#Programme de calcul du prix TTC
+prix_ht = input ("Quel est le prix hors taxes ? \n")
+print(type(prix_ht)) #la fonction input renvoie une chaine de caracteres
+prix_ht=float(prix_ht)
+print(type(prix_ht))
+prix_ttc=prix_ht+prix_ht*19.6/100
+print("le prix toutes taxes comprises est : ", prix_ttc, "euros")
+
+\end{lstlisting}
+
+\begin{Exercise}[title={Commenter},counter={exo}]
+	Indiquer le rôle de chacune des lignes du programme \ref{TTC} en ajoutant des commentaires.
+\end{Exercise}
+ 
+\begin{Exercise}[title={Modifier},counter={exo}]
+	Adapter le programme \ref{TTC} afin que l'utilisateur puisse choisir le taux de TVA.
+\end{Exercise}
+
+
+
+\paragraph{Remarque : } 
+
+Le programme \ref{TTC} utilise des fonctions pour :
+\begin{itemize}
+	\item \textbf{pour afficher un résultat}  : \textit{print(paramètre1,paramètre2)}. Les paramètres à afficher sont disposés à l'intérieur des parenthèses et sont séparés par des virgules.
+	\item \textbf{pour recueillir l'avis de l'utilisateur} : \textit{variable=input(paramètre)}. Cette fonction comporte des paramètres, le texte à afficher à l'utilisateur. Elle renvoie une valeur stockée dans une variable, la donnée entrée par l'utilisateur
+	\item \textbf{pour traiter (typer) les données} : \textit{type(paramètre)}, \textit{variable=float(paramètre)} ... Ces fonctions permettent d'afficher le type de données (entier, flottant...) ou de modifier le type (exemple passage d'un entier à un flottant).
+\end{itemize}
+
+La liste des fonctions ne pourrait être exhaustive. Au fur et à mesure de notre pratique de Python, nous appréhenderons l'usage de nouvelles fonctions. 
+
+
+\subsection{Des fonctions intégrées en module}
+
+Pour des usages spécifiques, de nouvelles fonctions qui ne sont pas disponibles à l'origine, peuvent être importées en faisant appel à des modules. Par exemple, le module math rajoute des fonctionnalités mathématiques (voir programme \ref{triangle}).
+
+\begin{lstlisting}[frame=lines,float=h,caption={Module math},label=triangle]
+#importation des fonctions du module math
+import math 
+#Definition des cotes d'un triangle rectangle
+adjacent=7
+oppose=4
+hypothenuse=math.sqrt(adjacent**2+oppose**2) #appel :  math.fonction()
+print(hypothenuse)
+#Utilisation des fonctions trigonometriques
+angle=math.atan(oppose/adjacent)
+print(angle)
+print(hypothenuse*math.cos(angle))
+print(hypothenuse*math.sin(angle))
+\end{lstlisting}
+
+Un autre exemple avec le module \textit{random} qui permet d'effectuer des tirages aléatoires (voir programme \ref{tirage}).
+
+\begin{lstlisting}[frame=lines,,float=h,caption={Module random},label=tirage]
+#Module random permettant d'effectuer des tirages aleatoires
+import random
+a=random.randint(1,6) #Renvoi un entier tire au hasard dans l'intervalle [1,6], un peu comme au jeu de des :)
+print(a)
+\end{lstlisting}
+
+\newpage
+
+\section{Définir ses propres fonctions}
+
+Les fonctions constituent le principal élément structurant d'un programme. Afin de s'initier à la déclaration de ses propres fonctions, commençons par le calcul d'une fonction mathématique simple :
+\begin{center}
+$y=f(x)=\frac{x^2+3x+2}{1+x^2}$
+\end{center}
+
+Ce qui donne en Python (\ref{premfunc}) :
+\begin{lstlisting}[frame=lines,caption={Une première fonction},label=premfunc]
+def funcF(e):
+	"""Calcul d'une fonction mathematique simple"""
+	s=(e**2+3*e+2)/(1+e**2)
+	return s
+\end{lstlisting}
+
+Le résultat de la fonction peut alors être évalué(\ref{appelfunc}) :
+\begin{lstlisting}[frame=lines,caption={l'appel à une fonction},label=appelfunc]
+>>> funcF(2)
+8.0
+>>> funcF(5)
+5.5
+>>> a=2
+>>> b=funcF(a)
+>>> b
+8.0
+\end{lstlisting}
+
+
+\begin{defi}
+
+Une fonction est donc définie par :
+\begin{enumerate}
+\item une \textbf{introduction} déclarée par le mot-clef \textbf{def};
+\item un \textbf{corps de fonction} constitué d'un bloc d'\textbf{instructions indentées};
+\item une \textbf{finalisation} pouvant être initiée par le mot-clef \textbf{return}.
+
+\end{enumerate}
+
+\end{defi}
+
+Voici un second exemple  (\ref{funchyp}).
+\begin{lstlisting}[frame=lines,caption={Une seconde fonction},label=funchyp]
+from math import * #importe les fonctions math au meme plan que les fonctions d'origine
+#plus besoin donc d'utiliser math.fonction()
+
+def hypothenuse(a, b):
+	"""Calcul la longueur de l'hypothenuse """
+	c=sqrt(a**2 + b**2)
+	return c
+\end{lstlisting}
+
+Recherchons les éléments constituants la fonction :
+
+\begin{center}
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\multicolumn{3}{|c|}{Nom de la fonction : Hypothénuse}\\
+\hline
+Introduction & Corps de fonction & Finalisation\\
+\hline
+Paramètres en entrée 
+
+a et b & 
+Traitement
+
+c=sqrt(a**2 + b**2)& Valeur en sortie 
+
+c\\
+\hline
+\end{tabular}
+\end{center}
+
+D'un point de vue mathématique, cela s'écrirait :
+\begin{center}
+$c=hypothenuse(a,b)=\sqrt{a^2+b^2}$
+\end{center}
+
+
+\subsection{L'initialisation de la fonction}
+
+La ligne d'initialisation de la fonction s'établit dans l'ordre suivant :
+\begin{enumerate}
+	\item \textbf{\textit{def}}, mot-clef qui est l'abréviation de \textbf{"define"} et qui constitue le prélude à toute construction de fonction;
+	\item Le \textbf{nom de la fonction} : choisissez un nom caractérisant de façon explicite le rôle de la fonction (dans notre exemple "hypothenuse");
+	\item La \textbf{liste des paramètres} qui seront fournis lors d'un appel de la fonction, séparés par des virgules et encadrés par des parenthèses;
+	\item les \textbf{deux points ":"} qui clôturent la ligne et qui indiquent que les instructions suivantes seront incluses dans le corps de la fonction
+\end{enumerate}
+
+\begin{lstlisting}[frame=lines]
+
+#L'initialisation
+def nom_fonction (parametre1 , parametre2) :
+\end{lstlisting}
+
+\subsection{Le corps de la fonction}
+
+Le corps de la fonction est constitué des lignes d'instructions qui ont été regroupées au sein de la fonction afin d'assurer le traitement souhaité.
+Afin d'identifier leur appartenance à la fonction, ces lignes sont indentées.
+\begin{lstlisting}[frame=lines]
+
+#L'initialisation
+def nom_fonction (parametre1 , parametre2) :
+....#Le corps de la fonction 
+....Ligne instructions 1
+....Ligne instructions 2
+....#Indentation OBLIGATOIRE de 4 espaces vers la droite
+\end{lstlisting}
+
+
+\subsection{La finalisation de la fonction}
+
+La finalisation de la fonction peut s'établir de deux manières :
+\begin{itemize}
+	\item Lorsque le mot-clef \textbf{\textit{return}} apparait. Cette instruction signifie qu'on \textbf{renvoie} une valeur (exemple résultat du calcul effectué par la fonction mathématique simple), pour pouvoir la récupérer ensuite et la stocker dans une variable par exemple. Cette instruction arrête le déroulement de la fonction, le code situé après le return ne s'exécutera pas.
+	\item Lorsque \textbf{toutes les lignes} du corps de la fonction délimitées par les indentations ont été \textbf{traitées} en l'\textbf{absence} de mot-clef \textbf{\textit{return}}. La fonction ne renvoie donc pas de valeur. Il s'agit alors d'une suite d'instructions regroupée dans une fonction (plus précisément une procédure mais python ne fait pas de  distinction) afin de structurer le programme (voir exemple  \ref{horaires} d'un code pouvant être utilisé à plusieurs reprises). 
+
+	
+\end{itemize}
+
+\begin{lstlisting}[frame=lines,float=h,caption={Fonction à paramètres},label=horaires]
+def depart(destination,horaire):
+    print("-----------------------------------")
+    print("L'avion a destination de ", destination," part a", horaire)
+    print("-----------------------------------")
+    
+depart("tokyo","8h30")
+depart("Miami","11h00")
+depart("Moscou","12h25")
+
+\end{lstlisting}
+$\Rightarrow$\\
+-----------------------------------\\
+L'avion a destination de  tokyo  part a 8h30\\
+-----------------------------------\\
+-----------------------------------\\
+L'avion a destination de  Miami  part a 11h00\\
+-----------------------------------\\
+-----------------------------------\\
+L'avion a destination de  Moscou  part a 12h25\\
+-----------------------------------\\
+
+
+\subsection{L'usage de la fonction}
+
+La compilation d'un programme s'effectuant ligne par ligne, la définition d'une fonction doit s'effectuer en amont de son usage.
+Ainsi pour notre fonction hypoténuse, son utilisation s'écrit:
+
+\begin{lstlisting}[frame=lines]
+valeur_hyp=hypothenuse(3,5)
+print(valeur_hyp)
+\end{lstlisting}
+$\Rightarrow 5.830951894845301$
+
+\subsubsection{les paramètres d'une fonction}
+
+Les paramètres d'une fonction doivent être rentrées dans l'ordre (exemple \ref{param1}).
+
+\begin{lstlisting}[frame=lines,float=h,caption={l'usage des paramètres},label=param1]
+def devoirs(lycee,annee,jour) :
+    print("Au lycee", lycee, ", les devoirs sur table en", annee ,"ont lieu le",jour)
+\end{lstlisting}
+
+\begin{lstlisting}[frame=lines]
+devoirs("Faidherbe","1ere annee","samedi") :  
+\end{lstlisting}
+$\Rightarrow$ Au lycee Faidherbe, les devoirs sur table en 1ere annee ont lieu le samedi
+
+\begin{lstlisting}[frame=lines]
+devoirs("samedi","1ere annee","Faidherbe") :  
+\end{lstlisting}
+$\Rightarrow$ Au lycee samedi, les devoirs sur table en 1ere annee ont lieu le Faidherbe
+\\
+
+\par Il est également possible de définir des fonctions ne nécessitant pas de paramètre (voir programme \ref{ss_param}).
+
+\begin{lstlisting}[frame=lines,caption={une fonction sans paramètre},label=ss_param]
+def bonjour():
+    print("Bienvenue a Faidherbe")
+    
+>>> bonjour()
+Bienvenue a Faidherbe
+>>>     
+\end{lstlisting}
+
+
+\subsubsection{Les valeurs renvoyées par une fonction}
+
+Le renvoie d'une valeur s'effectue à l'aide du mot-clef \textit{return}. Ce n'est pas parce que la fonction affiche un résultat (avec \textit{print()} dans le corps de la fonction) que la fonction renvoie une valeur pouvant être stockée.
+La valeur renvoyée par une fonction ne possédant pas de \textit{return} est par défaut \textit{none}.
+
+La valeur peut être constituée de plusieurs éléments (voir programme \ref{vals}).
+
+\begin{lstlisting}[frame=lines,caption={une fonction renvoyant plusieurs valeurs},label=vals]
+def sphere(rayon):
+    """fonction calculant le volume et la surface d'une sphere
+    Parametre d'entree : rayon
+    Valeurs renvoyees dans l'ordre surface, volume
+    """
+    surf=4*3.14*rayon**2
+    vol=(4/3)*3.14*rayon**3
+    return surf,  vol
+
+>>> surface, volume = sphere (2)
+>>> print("La surface de la sphere est",surface,"et la volume est",volume)
+La surface de la sphere est 50.24 et la volume est 33.49333333333333
+>>> 
+\end{lstlisting}
+
+Une fonction peut comporter plusieurs \textit{return}. auquel cas, la fonction se finalisera au premier \textit{return}. La suite du code ne sera pas compilée (voir programme \ref{parite}).
+
+\begin{lstlisting}[frame=lines,caption={une fonction avec plusieurs \textit{return}},label=parite]
+def parite(nombre):
+    if nombre%2==0:
+        return "pair"
+    else:
+        return "impair"
+        
+>>> print(parite(12))
+pair
+>>> print(parite(13))
+impair
+>>> 
+\end{lstlisting}
+
+\subsubsection{La documentation d'une fonction}
+
+Afin de savoir quel est le rôle d'une fonction, dans quel ordre il faut rentrer les paramètres ou quelles sont les valeurs renvoyées, il est important de documenter sa fonction (voir \ref{docu}).
+
+\begin{lstlisting}[frame=lines,caption={l'usage des paramètres},label=docu]
+def devoirs(lycee,annee,jour) :
+    """ Fonction affichant le jour des devoirs sur table
+    Premier parametre : le nom du lycee
+    Second parametre : le niveau
+    Troisieme parametre: le jour des devoirs
+    """
+    print("Au lycee", lycee, ", les devoirs sur table en", annee ,"ont lieu le",jour)
+    
+  
+
+    
+\end{lstlisting}
+
+La documentation de la fonction s'écrit dans le corps de la fonction, juste après la première ligne de déclaration. La documentation commence par \textit{"""} et se termine par \textit{"""}.
+Il est possible de faire appel à cette documentation dans une console en tapant \textit{help(fonction)}.
+Cette documentation doit donc indiquer :
+\begin{itemize}
+	\item le rôle de la fonction;
+	\item la liste des paramètres attendues dans l'ordre;
+	\item la ou les valeurs renvoyées.
+\end{itemize}
+
+\begin{lstlisting}[frame=lines]
+>>> help(devoirs)
+Help on function devoirs in module __main__:
+
+devoirs(lycee, annee, jour)
+    Fonction affichant le jour des devoirs sur table
+    Premier parametre : le nom du lycee
+    Second parametre : le niveau
+    Troisieme parametre: le jour des devoirs
+
+>>> 
+\end{lstlisting}
+
+La documentation a pour rôle de permettre à un utilisateur de mettre en oeuvre une fonction dont il ne connait pas la structure interne.
+
+La documentation ne remplace pas les commentaires que vous êtes invités à mettre dans le corps de votre fonction comme dans tout programme.  
+
+
+
+%\subsubsection{Le stockage de ses fonctions dans un fichier}
+
+%\textbf{Remarque} : il est possible de stocker les fonctions dans un fichier et d'y faire appel par la suite (UTILITE DE LE DÉVELOPPER ICI???)
+
+

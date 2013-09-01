@@ -1,0 +1,599 @@
+% !TeX root = cours-ipt.tex
+\renewcommand{\FrenchLabelItem}{\textbullet}
+
+\chapter{Listes}
+
+\section{Types composés}
+Jusqu’à présent nous avons utilisé des données simples : 
+
+entiers, réels, booléens.
+
+On a souvent besoin de manipuler des données multiples, on a alors besoin de définir des assemblages de types simples :
+
+\begin{itemize}
+\item une suite de résultats expérimentaux
+\item un répertoire de noms
+\item une fiche d’un répertoire avec noms, téléphone, mail, etc
+\item un bulletin de notes
+\item une file d’attente
+\item et bien d’autres
+\end{itemize}
+
+Les assemblages peuvent avoir différentes propriétés :
+\begin{itemize}
+\item longueur fixée (ensemble des notes trimestrielles) ou variable (résultats expérimentaux)
+\item type composant homogène (liste de références) ou non (fiche de répertoire)
+\item accès au composants par leur place (suite d’entiers),  par un nom (intitulés d’un répertoire) ou accès d’un élément à la fois (file d’attente)
+\item modification possible d’un élément (moyenne des devoirs des étudiants) ou modification impossible (caractéristiques d’un atome).
+\end{itemize}
+
+Chaque langage définit des objets composés en faisant des choix, en général plusieurs types sont proposés. Python définit en particulier les listes : ce sont des suites de composants de types quelconques, indexés par leur position, de longueur variable et dont les éléments sont modifiables. 
+
+On peut imaginer les listes comme un train de marchandises : chaque wagon a son numéro, on peut en remplacer le contenu, on peu ajouter un ou des wagons au bout. On peut aussi, mais c’est plus long, insérer un wagon au milieu ; on doit alors renuméroter tous les wagons qui suivent.
+
+\section{Listes comme tableaux}
+
+On va commencer par voir comment utiliser une liste comme un tableau de variables.
+Ce sera la principale utilisation.
+
+\subsection{Définition d'une liste}
+
+On peut définir une liste en l’écrivant explicitement :
+\begin{lstlisting}
+>>> maListe = [2,7,8]
+>>> maListe
+[2,7,8]
+\end{lstlisting}
+
+
+On peut aussi définir une liste à partir d’un générateur, comme dans la boucle for
+\begin{lstlisting}
+>>> maListe = list(range(20)) 
+>>> maListe
+[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+\end{lstlisting}
+
+\textbf{Rappel} : en Python 2 le générateur est \lstinline?xrange?, 
+
+par contre \lstinline?range? définit directement une liste.
+
+\subsection{Accès aux éléments}
+
+Les éléments de la liste sont obtenus par leur indice sous la forme
+\begin{lstlisting}
+>>> maListe[1]
+7
+\end{lstlisting}
+
+On remarquera que les indices commencent à 0.
+
+Python permet aussi d’accéder aux éléments depuis la fin : le dernier élément a l’indice -1, le précédent l’indice -2 et on continue jusqu’au premier qui a l’indice -n où n est la longueur de la liste.
+
+
+\[
+\begin{tabular}{cccccccc}
+éléments & $\vert$ & 4&8&7&5&6&7\\
+  \hline
+indice & $\vert$ & 0&1&2&3&4&5\\
+  \hline
+indice négatif& $\vert$ & -6&-5&-4&-3&-2&-1\\
+\end{tabular}
+\]
+
+
+On peut modifier un élément avec les mêmes moyens :
+\begin{lstlisting}
+>>> maListe[1]=5
+>>> maListe[-1]=3
+>>> maListe
+[2, 5, 3]
+\end{lstlisting}
+
+Les listes sont donc des structures mutables, on verra que Python définit des structures qui ne permettent pas la modification, non mutables.
+
+\subsection{Longueur d'une liste}
+
+Le nombre d’éléments d’une liste, sa longueur, est donné par 
+\begin{lstlisting}
+>>> len(maListe)
+3
+\end{lstlisting}
+
+\lstinline?len? signifie length, longueur en anglais.
+
+Comme le premier indice d'une liste est 0 le dernier sera $n-1$ où $n$ est la longueur.
+
+
+\section{Parcours d’une liste}
+
+On aura souvent besoin de parcourir une liste c’est-à-dire inspecter ses éléments un à un.
+Pour cela une boucle for est bien adaptée car les indices forment une suite d’entiers.
+
+On va traiter un exemple : recherche du maximum d'une liste.
+
+\subsection{Parcours standard}
+
+On cherche la valeur maximale dans une liste d’entiers ou de réels.
+L’idée est de trouver, pas à pas, le maximum des premiers termes ; 
+si on connaît le maximum des termes d’indices 0 à i il suffit de le comparer avec le terme d’indice i+1 pour choisir le maximum des termes d’indices 0 à i+1.
+
+\begin{lstlisting}
+def maxListe1(l):
+	""" Recherche du maximum de la liste l
+	Celle-ci doit etre non vide"""
+    maximum = l[0]
+    for i in range(len(l)):
+        if maximum < l[i]:
+            maximum = l[i]
+    return(maximum)
+\end{lstlisting}
+
+\break
+
+Sous cette forme on compare, à la première itération, l[0] avec lui-même. Bien que ce ne soit pas vraiment un problème on peut l’éviter.
+\begin{lstlisting}
+def maxListe2(l):
+	maximum = l[0]
+	for i in range(1,len(l)):
+		if maximum < l[i]:
+			maximum = l[i]
+	return(maximum)
+\end{lstlisting}
+
+
+\subsection{Parcours pythonesque}
+On accède aux différentes valeurs de la liste par leur indice. Python permet d’éviter cela et de parcourir directement la liste, c’est une évolution de la boucle spécifique à ce langage.
+
+\begin{lstlisting}
+def maxListe3(l):
+	maximum = l[0]
+	for x in l:
+		if maximum < x:
+			maximum = x
+	return(maximum)
+\end{lstlisting}
+
+
+Il y a des cas où cette méthode peut ne pas sembler possible.
+Par exemple si on souhaite non pas la valeur maximale mais l’indice en lequel cet indice est atteint.
+Pour cela on doit modifier le programme en gardant en mémoire le maximum provisoire mais aussi l’indice correspondant.
+\begin{lstlisting}
+def indiceMaxListe1(l):
+	""" Recherche du premier indice en
+	lequel la liste atteint son maximum"""	
+	maximum = l[0]
+	iMaximum = 0
+	for i in range(len(l)):
+		if maximum < l[i]:
+			maximum = l[i]
+			iMaximum = i
+	return(iMaximum)
+\end{lstlisting}
+
+\break
+
+Ici encore Python fournit un autre moyen.
+La fonction {\tt enumerate} accède aux couples (i,x) formés des différents indices successifs et aux valeurs correspondantes de la liste :
+\begin{lstlisting}
+def indiceMaxListe2(l):
+	iMaximum,maximum = 0,l[0]
+	for i,x in enumerate(l):
+		if maximum < x:
+			iMaximum,maximum = i,x
+	return(iMaximum)
+\end{lstlisting}
+
+
+\section{Constructions de nouvelles listes}
+
+
+\subsection{Concaténation}
+
+Les opérations des chaînes de caractères s’appliquent aux listes. On construit de nouvelles listes à partir de listes existantes.
+
+\begin{lstlisting}
+>>> l = [1,5,4,8]
+>>> ll = [2,4,7]
+>>> l+ll
+[1,5,4,8,2,4,7]
+>>> l*3
+[1,5,4,8,1,5,4,8,1,5,4,8]
+>>> l*0
+[]
+\end{lstlisting}
+
+
+\subsection{Extraction}
+
+L’extraction de tranche se fait en indiquant le premier indice (0 par défaut), le premier indice non pris (on prend jusqu'à la fin par défaut) et le pas.
+
+
+\begin{lstlisting}
+>>> l = [3,1,4,1,5,9,2,6,5,2]
+>>> l[2:7]
+[4,1,5,9,2]
+>>> l[:-3] # on enleve les 3 derniers termes
+[3,1,4,1,5,9,2]
+>>> l[2::3]# 1 terme sur 3 a partir de l[2]
+[4, 9, 5]
+\end{lstlisting}
+
+Python permet d’utiliser cette construction dès la définition d’une liste. 
+On remplace \lstinline?list(range(n))[a:n:b]? par \lstinline?list(range(a,n,b))?
+
+\subsection{Application d'une fonction}
+
+On peut aussi appliquer une fonction à tous les éléments d’une liste. On construit une nouvelle liste.
+\begin{lstlisting}
+>>> l = [1,5,4,8]
+>>> ll = [x*x for x in l]
+>>> ll
+[1,25,16,64]
+\end{lstlisting}
+
+On peut même appliquer une fonction aux éléments d’une liste après filtrage :
+\begin{lstlisting}
+>>> l = [1.1, 0, 0.4, 7.4, 0.18]
+>>> ll = [1/x for x in l if abs(x) > 0.001]
+>>> ll
+[0.9090909090909091, 2.5, 0.13513513513513511, 5.555555555555555]
+\end{lstlisting}
+
+\section{Modification sur place}
+
+Les listes, comme tout ce qui est employé dans Python, sont des objets. 
+
+Un objet définit des fonctions associées, \textbf{les méthodes} qu'on lui applique par l’appel d’une procédure de la forme
+\textit{nomDeListe.methode(parametres)}.
+
+Ceci ne produit pas une nouvelle liste mais modifie celle à laquelle est appliquée la méthode.
+
+
+
+La méthode principale est append(x) qui ajoute x au bout de la liste :
+\begin{lstlisting}
+>>> l = [1,5,4,8]
+>>> l.append(3)
+>>> l
+[1,5,4,8,3]
+\end{lstlisting}
+
+C’est un bon moyen pour fabriquer une liste en ajoutant des termes successivement.
+\begin{lstlisting}
+def chercher(x,l):
+	"""chercher les occurrences de x dans l
+	le resultat est la liste des indices 
+	i tels que l[i]=x"""
+	resultat=[] 
+	for i,y in enumerate l:
+		if x == y:
+			resultat.append(i) 
+	return(resultat) 
+\end{lstlisting}
+
+
+D’autres méthodes, qui transforment la liste sans en fabriquer de nouvelle, sont :
+
+\begin{itemize}
+\item l’insertion, \lstinline?l.insert(k,x)? insère l’élément x à la k-ième position en décalant d’un cran les éléments suivants.
+\item la concaténation, \lstinline?l.extend(ll)? transforme l en l + ll
+\item la suppression, \lstinline?l.remove(x)? supprime la première occurrence de l’élément x dans la liste en décalant d’un cran les éléments suivants
+\end{itemize}
+
+\section{Structure de liste}
+
+\subsection{Organisation en mémoire}
+
+Les variables de type listes ne sont pas organisées comme le sont les types simples. La raison principale est que la liste est modifiable 
+
+Une instruction de la forme \lstinline?a=3? construit un emplacement mémoire, que l'on se représentera sous la forme d'une case, occupé par l'entier 3 à une adresse que l'ordinateur calcule à partir du nom {\tt a}, que l'on se représentera sous la forme d'une étiquette.
+
+$$\tikzpicture
+ \tikzstyle{every node}=[circle,draw,minimum size =10mm]
+ \tikzstyle{level 1}=[sibling distance =6cm]
+ \node {\tt a}
+      child {node[rectangle]{2}};
+\endtikzpicture
+$$
+
+L'affectation \lstinline?b=a? consiste à créer une nouvelle case en y copiant le contenu de la première en lui attribuant l'étiquette {\tt b}.
+
+$$\tikzpicture
+ \tikzstyle{every node}=[circle,draw,minimum size =10mm]
+ \tikzstyle{level 1}=[sibling distance =6cm]
+ \node {\tt a}
+      child {node[rectangle]{2}};
+ \node at (3,0) {\tt b}
+      child {node[rectangle]{2}};
+\endtikzpicture
+$$
+
+Lors de la création d'une liste la case ne contient pas la liste mais un indicateur vers la liste.
+
+$$\tikzpicture
+ \tikzstyle{every node}=[circle,draw,minimum size =10mm]
+ \tikzstyle{level 1}=[sibling distance =6cm]
+ \node {\tt l}
+      child {node[rectangle](sl){}};
+ \draw (2,-2) grid +(5,1);
+ \draw[thick,-stealth] (sl) -- (2,-1.5);
+\endtikzpicture
+$$
+
+\subsection{Affectation}
+
+
+L’affectation d’une liste \textbf{ne crée pas} une nouvelle liste :
+\begin{lstlisting}
+>>> l1 = [1,5,4,8]
+>>> l2 = l
+>>> l1[1]=3
+>>> l2
+[1,3,4,8]
+\end{lstlisting}
+
+En effet les deux cases contiennent l'indicateur de la liste.
+
+$$\tikzpicture
+ \tikzstyle{every node}=[circle,draw,minimum size =10mm]
+ \tikzstyle{level 1}=[sibling distance =6cm]
+ \node at (-3,0) {\tt l1}
+      child {node[rectangle](al){}};
+ \draw (0,-4) grid +(5,1);
+ \draw[thick,-stealth] (al) -- (0.5,-3);
+ \node at (3,0) {\tt l2} 
+      child {node[rectangle](all){}};
+ \draw[thick,-stealth] (all) -- (0.5,-3);
+\endtikzpicture
+$$
+
+
+
+Il faut penser que \lstinline?l1? et \lstinline?l2? sont deux noms pour le même objet. Pour reprendre l’analogie ferroviaire si \lstinline?l1? est le train numéro 44844, \lstinline?l2? peut être “le train Hazebrouck-Lille de 19h27”. 
+Le nom d’une liste ne réfère pas à la liste mais à un indicateur de l’endroit où est la liste.
+
+On peut penser cela aussi comme deux noms associés à la même case.
+
+$$\tikzpicture
+ \tikzstyle{every node}=[circle,draw,minimum size =10mm]
+ \node (l1) {\tt l1};
+ \node (l2) at (1.5,0) {\tt l2};
+ \draw(-0.5,-2) rectangle (2,-1);
+ \draw (l1) -- (0,-1);
+ \draw (l2) -- (1.5,-1);
+ \draw (4,-2) grid +(5,1);
+ \draw [thick,-stealth] (2,-1.5) -- (4,-1.5);
+\endtikzpicture
+$$
+
+
+\subsection{Copie}On veut cependant parfois créer une nouvelle liste en copiant une liste existante de telle manière que les deux listes soient ensuite indépendantes. Plusieurs moyen sont possibles
+
+\begin{itemize}
+
+\item La fonction \lstinline?list? crée une liste  à partir d'objets énumérés tels que les listes :
+
+\begin{lstlisting}
+>>> l1 = [1,5,4,8]
+>>> l2 = list(l1)
+\end{lstlisting}
+
+\item On peut extraire la première liste en entier :
+
+\begin{lstlisting}
+>>> l1 = [1,5,4,8]
+>>> l2 = l1[:]
+\end{lstlisting}
+
+
+\item On peut utiliser un cas particulier d'affectation de fonction avec l'identité :
+
+\begin{lstlisting}
+>>> l1 = [1,5,4,8]
+>>> l2 = [x for x in l]
+\end{lstlisting}
+
+\item On peut utiliser \lstinline?deepcopy? que l'on charge depuis le module \lstinline?copy?
+
+\begin{lstlisting}
+>>> from copy import deepcopy
+\end{lstlisting}
+
+On verra plus loin que cette fonction va plus loin que le permettent les autres méthodes.
+
+\begin{lstlisting}
+>>> l1 = [1,5,4,8]
+>>> l2 = deepcopy(l1)
+\end{lstlisting}
+
+
+
+\end{itemize}
+
+Dans chaque cas on obtient deux listes indépendantes.
+
+\begin{lstlisting}
+>>> l2
+[1,5,4,8]
+>>> l1[1]=3
+>>> l1
+[1,3,4,8]
+>>> l2
+[1,5,4,8]
+\end{lstlisting}
+
+
+\section{Listes de listes}
+
+\subsection{Définition}
+
+Les éléments d'une liste ne sont pas nécessairement de type simple, en particulier on peut y placer d'autres listes. On obtient ainsi un tableau à double entrée.
+
+On peut placer des listes de taille différentes (et de types différents) mais nous n'allons considérer que des listes à $n$ composantes chacune étant une liste de $p$ composantes, des matrices.
+
+\begin{lstlisting}
+>>> m = [[1,5,4,8],[2,5,1,2],[3,0,2,7]]
+\end{lstlisting}
+
+$$\tikzpicture
+ \tikzstyle{every node}=[draw,minimum size =10mm,fill=white]
+ \node[circle] (m) {\tt m}
+  child {node[rectangle](l){}};
+ \node[rectangle](l0) at (3,-1.5) {};
+ \node[circle](ll0) at (3,-1.5) {};
+ \node[rectangle](l1) at (4,-1.5) {};
+ \node[circle](ll1) at (4,-1.5) {};
+ \node[rectangle](l2) at (5,-1.5) {};
+ \node[circle](ll2) at (5,-1.5) {};
+ \draw [thick,-stealth] (l) -- (l0);
+ \node[rectangle](m20) at (9,-5) {3};
+ \node[rectangle](m21) at (10,-5) {0};
+ \node[rectangle](m22) at (11,-5) {2};
+ \node[rectangle](m23) at (12,-5) {7};
+ \draw [thick,-stealth] (l2) -- (m20);
+ \node[rectangle](m10) at (4,-5) {2};
+ \node[rectangle](m11) at (5,-5) {5};
+ \node[rectangle](m12) at (6,-5) {1};
+ \node[rectangle](m13) at (7,-5) {2};
+ \draw [thick,-stealth] (l1) -- (m10);
+ \node[rectangle](m00) at (-1,-5) {1};
+ \node[rectangle](m01) at (0,-5) {5};
+ \node[rectangle](m02) at (1,-5) {4};
+ \node[rectangle](m03) at (2,-5) {8};
+ \draw [thick,-stealth] (l0) -- (m00);
+\endtikzpicture$$
+
+
+
+\vskip 1cm
+
+On peut penser \lstinline?m? sous la forme
+$\begin{pmatrix}
+1&5&4&8\\ 
+2&5&1&2\\ 
+3&0&2&7\\
+\end{pmatrix}$.
+
+Les éléments sont alors accessibles par \lstinline?m[i][j]?
+
+\begin{lstlisting}
+>>> m[0][2]
+4
+\end{lstlisting}
+
+\subsection{Initialisation}
+
+Pour initialiser une matrice nulle on peut être tenté de construire ainsi 
+
+\begin{lstlisting}
+>>> r = [0,0,0]
+>>> m =[r,r,r]
+>>> m
+[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+\end{lstlisting}
+
+
+Mais voici ce qui se passe quand on modifie un terme
+
+\begin{lstlisting}
+>>> m[0][1] = 1
+>>> m
+[[0, 1, 0], [0, 1, 0], [0, 1, 0]]
+\end{lstlisting}
+
+Ce qui s'est passé est que chacune des lignes de la matrice est une case associée à la liste \lstinline?r? on a donc modifié cette liste qui est reproduite 3 fois
+
+\begin{lstlisting}
+>>> r
+[0, 1, 0]
+\end{lstlisting}
+
+$$\tikzpicture
+ \tikzstyle{every node}=[draw,minimum size =10mm]
+ \node[circle] (m) {\tt m}
+  child {node[rectangle](l){}};
+ \node[rectangle](l0) at (3,-1.5) {{\tt r}};
+ \node[circle](ll0) at (3,-1.5) {};
+ \node[rectangle](l1) at (4,-1.5) {{\tt r}};
+ \node[circle](ll1) at (4,-1.5) {};
+ \node[rectangle](l2) at (5,-1.5) {{\tt r}};
+ \node[circle](ll2) at (5,-1.5) {};
+ \draw [thick,-stealth] (l) -- (l0);
+ \node[rectangle](r0) at (4,-3.5) {0};
+ \node[rectangle](r1) at (5,-3.5) {1};
+ \node[rectangle](r2) at (6,-3.5) {0};
+ \draw [thick,-stealth] (l0) -- (r0);
+ \draw [thick,-stealth] (l1) -- (r0);
+ \draw [thick,-stealth] (l2) -- (r0);
+
+\endtikzpicture
+$$
+
+
+Il faut donc recopier, par un des moyens vus ci-dessus, la liste ligne.
+
+\begin{lstlisting}
+>>> r = [0,0,0]
+>>> matrice =[list(r),list(r),list(r)]
+>>> matrice
+[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+>>> matrice[0][1] = 1
+>>> matrice
+[[0, 1, 0], [0, 0, 0], [0, 0, 0]]
+\end{lstlisting}
+
+\subsection{Copie}
+La copie d'une matrice pose des problèmes plus ardus que dans le cas d'une liste.
+En effet si on utilise les premiers moyens du paragraphe précédent on ne copie pas les éléments mais les listes qui forment les lignes.
+
+\begin{lstlisting}
+>>> mm = [x for x in m]
+\end{lstlisting}
+
+$$\tikzpicture
+ \tikzstyle{every node}=[draw,minimum size =10mm,fill=white]
+ \node[circle] (m) {\tt m}
+  child {node[rectangle](l){}};
+ \node[rectangle](l0) at (3,-1.5) {};
+ \node[circle](ll0) at (3,-1.5) {};
+ \node[rectangle](l1) at (4,-1.5) {};
+ \node[circle](ll1) at (4,-1.5) {};
+ \node[rectangle](l2) at (5,-1.5) {};
+ \node[circle](ll2) at (5,-1.5) {};
+ \draw [thick,-stealth] (l) -- (l0);
+ \node[rectangle](m20) at (9,-5) {3};
+ \node[rectangle](m21) at (10,-5) {0};
+ \node[rectangle](m22) at (11,-5) {2};
+ \node[rectangle](m23) at (12,-5) {7};
+ \draw [thick,-stealth] (l2) -- (m20);
+ \node[rectangle](m10) at (4,-5) {2};
+ \node[rectangle](m11) at (5,-5) {5};
+ \node[rectangle](m12) at (6,-5) {1};
+ \node[rectangle](m13) at (7,-5) {2};
+ \draw [thick,-stealth] (l1) -- (m10);
+ \node[rectangle](m00) at (-1,-5) {1};
+ \node[rectangle](m01) at (0,-5) {5};
+ \node[rectangle](m02) at (1,-5) {4};
+ \node[rectangle](m03) at (2,-5) {8};
+ \draw [thick,-stealth] (l0) -- (m00);
+ \node[circle] (mm) at (0,-7) {\tt mm}
+  child {node[rectangle](r){}};
+ \node[rectangle](r0) at (3,-8.5) {};
+ \node[circle](rr0) at (3,-8.5) {};
+ \node[rectangle](r1) at (4,-8.5) {};
+ \node[circle](rr1) at (4,-8.5) {};
+ \node[rectangle](r2) at (5,-8.5) {};
+ \node[circle](rr2) at (5,-8.5) {};
+ \draw [thick,-stealth] (r) -- (r0);
+ \draw [thick,-stealth] (r2) -- (m20);
+ \draw [thick,-stealth] (r1) -- (m10);
+ \draw [thick,-stealth] (r0) -- (m00);
+ \endtikzpicture
+$$
+
+Ici le seul outil est \lstinline?deepcopy? qui copiera chaque élément de la liste en appliquant non pas une affectation mais encore \lstinline?deepcopy? : c'est une fonction \textbf{récursive}, létude de la récursivité se fera en seconde année.
+
+\vskip 2cm
+
+Plus tard nous utiliserons le module \lstinline?numpy? qui implémente de manière très efficace les matrices.
+
