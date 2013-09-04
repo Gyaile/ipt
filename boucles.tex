@@ -208,7 +208,8 @@ On définit les différentes parties d'une boucles conditionnelle: on peut déco
 \end{enumerate}
 \end{defi}
 
-\begin{Exercise}[title={Construire une boucle conditionnelle},counter={exo},label=exorec]
+\begin{Exercise}[title={Construire une boucle conditionnelle},counter={exo}]
+\label{exorec}
 Fixer un entier $n$.\\
 Calculer à l'aide d'une boucle \textit{while} le $n^{eme}$ terme de la suite définie par $u_0=1$ et pour tout $n$ de $\mathbb{N}$, $u_{n+1}=2u_n-3$. \textit{(Corrigé en fin de poly)}
 \end{Exercise}
@@ -229,11 +230,12 @@ print('Le enieme terme est ',a)
 Charger le module random à l'aide de l'instruction \textit{import random as rd} On peut tirer un nombre au hasard entre $1$ et $6$ à l'aide de l'instruction \textit{rd.randint(1,6)}. Faire des tirages successifs jusqu'à tirer un $-$ et afficher le nombre de tirages qui ont été nécessaires. 
 \end{Exercise}
 
-\begin{Exercise}[title={Construire une boucle conditionnelle sans utiliser de compteur: division naïve},counter={exo},label=exonaif]
+\begin{Exercise}[title={Construire une boucle conditionnelle sans utiliser de compteur: division naïve},counter={exo}]
+\label{exonaif}
   Soit deux nombres entiers $a$ et $b$ strictement positifs (on les choisit), construire une boucle conditionnelle qui renvoie le résultat de la division euclidienne de $a$ par $b$ en soustrayant $b$ de $a$ autant de fois que nécessaire. \textit{(Corrigé en fin de poly)}
 \end{Exercise}
 
-\begin{Answer}[ref=exonaif]
+\begin{Answer}
 \begin{lstlisting}[frame=lines, caption={division naïve}, label=premcode4]
 #On divise a par b
 a=67
@@ -370,10 +372,12 @@ La complexité n'est pas toujours facile à déterminer. Voir par exemple le pro
     
 
 \section{Thèmes}
-\begin{Exercise}[counter={exo},label=sommediv] Écrire un code qui donne la somme de tous les diviseurs plus grands que 1 (y compris lui-même) d'un entier $n\geq2$
+\begin{Exercise}[counter={exo}]
+\label{sommediv} 
+Écrire un code qui donne la somme de tous les diviseurs plus grands que 1 (y compris lui-même) d'un entier $n\geq2$
 \end{Exercise}
 
-\begin{Answer}[ref=sommediv]
+\begin{Answer}
 \begin{lstlisting}[frame=lines, caption={somme des diviseurs},label=premcode12]
 #recherche de la somme des diviseurs d'un entier n
 n=17
